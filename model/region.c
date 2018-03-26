@@ -16,19 +16,14 @@ region * create_region (double grid_size, int num_of_smalls, double small_mass, 
             (sizeof(particle) * MAX(DEFAULT_PART_ARRAY_LEN, new_region->particles_num * 2));
 
     for (int i = 0; i < num_of_smalls; i++) {
-        particle * new_small = create_particle
-                (small_mass, small_radius, next_double(grid_size), next_double(grid_size));
-        memcpy (&new_region->particle_array[i], new_small, sizeof(particle));
-        free (new_small);
+        load_particle(&new_region->particle_array[i], small_mass, small_radius,
+                      next_double(grid_size), next_double(grid_size), (small_radius > NOT_SMALL) ? 0 : 1);
     }
 
     for (int i = 0; i < num_of_bigs; i++) {
         double radius, mass, pos_x, pos_y;
         sscanf(bigs_data[i], "%lf %lf %lf %lf", &radius, &mass, &pos_x, &pos_y);
-        particle * new_big = create_particle
-                (mass, radius, pos_x, pos_y);
-        memcpy (&new_region->particle_array[i + num_of_smalls], new_big, sizeof(particle));
-        free (new_big);
+        load_particle(&new_region->particle_array[i + num_of_smalls], mass, radius, pos_x, pos_y, 0);
     }
 
     return new_region;
@@ -45,7 +40,7 @@ void traverse_region(region * reg) {
     printf ("The grid_size is %lf\n", reg->grid_size);
     for (int i = 0; i < reg->particles_num; i++) {
         particle * this = &reg->particle_array[i];
-        printf ("The %d particle is at (%lf, %lf) and has a radius of %lf mass of %lf\n"
-                , i, this->x, this->y, this->radius, this->mass);
+        printf ("The %d particle is at (%lf, %lf) and has a radius of %lf mass of %lf and is_small = %d\n"
+                , i, this->x, this->y, this->radius, this->mass, this->is_small);
     }
 }

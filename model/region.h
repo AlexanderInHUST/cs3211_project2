@@ -10,6 +10,7 @@
 #include "../util/random.h"
 
 #define DEFAULT_PART_ARRAY_LEN 2048
+#define NOT_SMALL 1
 
 typedef struct region {
     int pos_x;

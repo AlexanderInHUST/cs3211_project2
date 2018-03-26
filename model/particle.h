@@ -14,8 +14,9 @@ typedef struct particle {
     double radius;
     double velocity_north;
     double velocity_east;
+    int is_small;
 } particle;
 
-particle *create_particle(double mass, double radius, double x, double y);
+void load_particle(particle *mem, double mass, double radius, double x, double y, int is_small);
 
 #endif //GALAXY_SIMULATION_PARTICLE_H
