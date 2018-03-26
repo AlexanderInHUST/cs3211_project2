@@ -6,14 +6,14 @@
 #define GALAXY_SIMULATION_PARTICLE_H
 
 #include "../common.h"
+#include "vector_pair.h"
 
 typedef struct particle {
     double x;
     double y;
     double mass;
     double radius;
-    double velocity_north;
-    double velocity_east;
+    vector_pair velocity;
     int is_small;
 } particle;
 

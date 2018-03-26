@@ -10,7 +10,7 @@ void load_particle(particle *mem, double mass, double radius, double x, double y
     part->y = y;
     part->mass = mass;
     part->radius = radius;
-    part->velocity_east = 0;
-    part->velocity_north = 0;
+    part->velocity.to_east = 0;
+    part->velocity.to_north = 0;
     part->is_small = is_small;
 }

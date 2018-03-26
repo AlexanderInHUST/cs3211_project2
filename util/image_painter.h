@@ -7,6 +7,7 @@
 
 #include "../model/particle.h"
 #include "../model/ppm_image.h"
+#include "physics.h"
 
 void paint_on_ppm(ppm_image *image, particle *part, int x_offset, int y_offset);
 void traverse_image (ppm_image * image);

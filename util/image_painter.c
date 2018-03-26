@@ -21,7 +21,7 @@ void paint_on_ppm(ppm_image *image, particle *part, int x_offset, int y_offset) 
                     image->data[(i * image->width + j) * 3] = 255;
                 }
             } else {
-                if ((i - part->x) * (i - part->x) + (j - part->y) * (j - part->y) > part->radius * part->radius) {
+                if (DISTANCE(i, j, part->x, part->y) > part->radius) {
                     continue;
                 }
                 image->data[(i * image->width + j) * 3] = 0;

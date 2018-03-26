@@ -8,6 +8,7 @@
 #include "../common.h"
 #include "particle.h"
 #include "../util/random.h"
+#include "input_data.h"
 
 #define DEFAULT_PART_ARRAY_LEN 2048
 #define NOT_SMALL 1
@@ -17,12 +18,13 @@ typedef struct region {
     int pos_y;
     int particles_num;
     double grid_size;
-    struct particle * particle_array;
+    struct particle *particle_array;
 } region;
 
-void free_region (region ** aim);
-region * create_region (double grid_size, int num_of_smalls, double small_mass, double small_radius,
-                        int num_of_bigs, char ** bigs_data, int x, int y);
-void traverse_region(region * reg);
+void free_region(region **aim);
+
+region *create_regions(input_data *input, int x, int y, int region_num);
+
+void traverse_region(region *reg);
 
 #endif //GALAXY_SIMULATION_REGION_H
