@@ -9,11 +9,11 @@
 #include "vector_pair.h"
 
 typedef struct particle {
-    double x;
-    double y;
+    double x, y;
+    double next_x, next_y;
     double mass;
     double radius;
-    vector_pair velocity;
+    vector_pair velocity, next_velocity;
     int is_small;
 } particle;
 

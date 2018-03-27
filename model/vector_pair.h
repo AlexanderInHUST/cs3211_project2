@@ -10,4 +10,6 @@ typedef struct vector_pair {
     double to_north;
 }vector_pair;
 
+void vector_pair_add (vector_pair * a, vector_pair * b);
+
 #endif //GALAXY_SIMULATION_VECTOR_PAIR_H
