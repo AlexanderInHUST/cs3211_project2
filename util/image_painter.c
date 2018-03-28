@@ -16,7 +16,7 @@ void paint_on_ppm(ppm_image *image, particle *part, int x_offset, int y_offset) 
                 continue;
             }
             if (part->is_small == 1) {
-                image->data[(i * image->width + j) * 3] += 200;
+                image->data[(i * image->width + j) * 3] += RED_P;
                 if (image->data[(i * image->width + j) * 3] > 255) {
                     image->data[(i * image->width + j) * 3] = 255;
                 }
@@ -24,7 +24,7 @@ void paint_on_ppm(ppm_image *image, particle *part, int x_offset, int y_offset) 
                 if (DISTANCE(i, j, part->x, part->y) > part->radius) {
                     continue;
                 }
-                image->data[(i * image->width + j) * 3] = 0;
+//                image->data[(i * image->width + j) * 3] = 0;
                 image->data[(i * image->width + j) * 3 + 2] = 255;
             }
         }

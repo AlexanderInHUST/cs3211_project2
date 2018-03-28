@@ -11,11 +11,15 @@ void start_simulation(region *regions, input_data *input, int regs_sqt_num) {
     int total_shots = input->time_slots;
     int horizon = input->horizon;
     int grid_size = input->grid_size;
+    double total_energy = 0;
+
     for (int step = 0; step < total_shots; step++) {
         printf("step %d start.\n", step);
-        if (step == 6) {
+        if (step == 13) {
             printf("stop");
         }
+        double gravitational_energy = 0, kinetic_energy = 0;
+
         for (int reg_idx = 0; reg_idx < regs_sqt_num * regs_sqt_num; reg_idx++) {
             region *current_region = &regions[reg_idx];
             ppm_image *image = s_create_ppm_image(current_region, 1);
@@ -44,36 +48,37 @@ void start_simulation(region *regions, input_data *input, int regs_sqt_num) {
 
                             double global_aim_x = reg_idx_x * grid_size + aim_part->x;
                             double global_aim_y = reg_idx_y * grid_size + aim_part->y;
-//                            if (DISTANCE(global_part_x, global_part_y, global_aim_x, global_aim_y) < part->radius + aim_part->radius &&
-//                                DISTANCE(global_part_x, global_part_y, global_aim_x, global_aim_y) > 0.00001) {
-//                                vector_pair *velocity_change = (vector_pair *) malloc(sizeof(vector_pair));
-//                                velocity_change->to_east = -part->velocity.to_east * 2;
-//                                velocity_change->to_north = -part->velocity.to_north * 2;
-//                                vector_pair_add(next_velocity, velocity_change);
-//                                free(velocity_change);
-//                            } else {
-                                vector_pair *force = compute_gravitational_force(part, aim_part, global_part_x
-                                        , global_part_y, global_aim_x, global_aim_y);
-                                vector_pair *velocity_change = compute_velocity(part, force, time_step);
-                                vector_pair_add(next_velocity, velocity_change);
 
-                                free(force);
-                                free(velocity_change);
-//                            }
+                            vector_pair *force = compute_gravitational_force(part, aim_part, global_part_x
+                                    , global_part_y, global_aim_x, global_aim_y);
+                            vector_pair *velocity_change = compute_velocity(part, force, time_step);
+                            vector_pair_add(next_velocity, velocity_change);
+
+                            gravitational_energy += compute_gravitational_energy(part, aim_part, global_part_x
+                                    , global_part_y, global_aim_x, global_aim_y);
+
+                            free(force);
+                            free(velocity_change);
                         }
                     }
-
-                    vector_pair *replacement = compute_displacement(part, time_step);
-                    part->next_x += replacement->to_north;
-                    part->next_y += replacement->to_east;
                 }
+
+                kinetic_energy += compute_kinetic_energy(part);
+                vector_pair *replacement = compute_displacement(part, time_step);
+                part->next_x += replacement->to_north;
+                part->next_y += replacement->to_east;
             }
+        }
+
+        if (step == 0) {
+            total_energy = gravitational_energy;
         }
 
         for (int reg_idx = 0; reg_idx < regs_sqt_num * regs_sqt_num; reg_idx++) {
             region *current_region = &regions[reg_idx];
             for (int part_id = 0; part_id < current_region->particles_num; part_id++) {
                 particle *part = &current_region->particle_array[part_id];
+                correct_velocity(part, gravitational_energy, kinetic_energy, total_energy);
                 part->x = part->next_x;
                 part->y = part->next_y;
                 part->velocity.to_east = part->next_velocity.to_east;
