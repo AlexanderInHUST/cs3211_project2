@@ -16,7 +16,7 @@ void paint_on_ppm(ppm_image *image, particle *part, int x_offset, int y_offset) 
                 continue;
             }
             if (part->is_small == 1) {
-                image->data[(i * image->width + j) * 3] += 1;
+                image->data[(i * image->width + j) * 3] += 200;
                 if (image->data[(i * image->width + j) * 3] > 255) {
                     image->data[(i * image->width + j) * 3] = 255;
                 }

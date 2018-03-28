@@ -13,6 +13,9 @@ void start_simulation(region *regions, input_data *input, int regs_sqt_num) {
     int grid_size = input->grid_size;
     for (int step = 0; step < total_shots; step++) {
         printf("step %d start.\n", step);
+        if (step == 6) {
+            printf("stop");
+        }
         for (int reg_idx = 0; reg_idx < regs_sqt_num * regs_sqt_num; reg_idx++) {
             region *current_region = &regions[reg_idx];
             ppm_image *image = s_create_ppm_image(current_region, 1);
