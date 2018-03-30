@@ -14,7 +14,7 @@ ppm_image *s_create_ppm_image(region *reg, int regs_sqt_num) {
     for (int i = 0; i < regs_sqt_num * regs_sqt_num; i++) {
         for (int j = 0; j < reg[i].particles_num; j++) {
             particle *part = &reg[i].particle_array[j];
-            paint_on_ppm(image, part, i / regs_sqt_num, i % regs_sqt_num);
+            paint_on_ppm(image, part, i / regs_sqt_num * grid_size, i % regs_sqt_num * grid_size);
         }
     }
     return image;

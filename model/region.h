@@ -22,9 +22,8 @@ typedef struct region {
 } region;
 
 void free_region(region **aim);
-
-region *create_regions(input_data *input, int x, int y, int region_num);
-
+void free_regions(region **aim, int num_sqt);
+region *create_regions(input_data *input, int region_sqt_num);
 void traverse_region(region *reg);
 
 #endif //GALAXY_SIMULATION_REGION_H

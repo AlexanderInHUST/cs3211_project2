@@ -15,19 +15,17 @@ void start_simulation(region *regions, input_data *input, int regs_sqt_num) {
 
     for (int step = 0; step < total_shots; step++) {
         printf("step %d start.\n", step);
-        if (step == 13) {
-            printf("stop");
-        }
+
+        ppm_image *image = s_create_ppm_image(regions, regs_sqt_num);
+        char file_name[50];
+        sprintf(file_name, "test%d.ppm", step);
+        store_file(image, file_name);
+        free_output_data(&image);
+
         double gravitational_energy = 0, kinetic_energy = 0;
 
         for (int reg_idx = 0; reg_idx < regs_sqt_num * regs_sqt_num; reg_idx++) {
             region *current_region = &regions[reg_idx];
-            ppm_image *image = s_create_ppm_image(current_region, 1);
-            char file_name[50];
-            sprintf(file_name, "test%d.ppm", step);
-            store_file(image, file_name);
-            free_output_data(&image);
-
             int reg_start_x = MAX(reg_idx / regs_sqt_num - horizon, 0);
             int reg_start_y = MAX(reg_idx % regs_sqt_num - horizon, 0);
             int reg_end_x = MIN(reg_idx / regs_sqt_num + horizon, regs_sqt_num - 1);
@@ -38,6 +36,19 @@ void start_simulation(region *regions, input_data *input, int regs_sqt_num) {
                 vector_pair *next_velocity = &part->next_velocity;
                 double global_part_x = reg_idx / regs_sqt_num * grid_size + part->x;
                 double global_part_y = reg_idx % regs_sqt_num * grid_size + part->y;
+
+                for (int reg_idx_x = 0; reg_idx_x < regs_sqt_num; reg_idx_x++) {
+                    for (int reg_idx_y = 0; reg_idx_y < regs_sqt_num; reg_idx_y++) {
+                        region *aim_region = &regions[reg_idx_x * regs_sqt_num + reg_idx_y];
+                        for (int aim_part_id = 0; aim_part_id < aim_region->particles_num; aim_part_id++) {
+                            particle *aim_part = &aim_region->particle_array[aim_part_id];
+                            double global_aim_x = reg_idx_x * grid_size + aim_part->x;
+                            double global_aim_y = reg_idx_y * grid_size + aim_part->y;
+                            gravitational_energy += compute_gravitational_energy(part, aim_part, global_part_x
+                                    , global_part_y, global_aim_x, global_aim_y);
+                        }
+                    }
+                }
 
                 for (int reg_idx_x = reg_start_x; reg_idx_x <= reg_end_x; reg_idx_x++) {
                     for (int reg_idx_y = reg_start_y; reg_idx_y <= reg_end_y; reg_idx_y++) {
@@ -53,9 +64,6 @@ void start_simulation(region *regions, input_data *input, int regs_sqt_num) {
                                     , global_part_y, global_aim_x, global_aim_y);
                             vector_pair *velocity_change = compute_velocity(part, force, time_step);
                             vector_pair_add(next_velocity, velocity_change);
-
-                            gravitational_energy += compute_gravitational_energy(part, aim_part, global_part_x
-                                    , global_part_y, global_aim_x, global_aim_y);
 
                             free(force);
                             free(velocity_change);
@@ -74,6 +82,13 @@ void start_simulation(region *regions, input_data *input, int regs_sqt_num) {
             total_energy = gravitational_energy;
         }
 
+        if (step == 3) {
+            for (int i = 0; i < 4; i++) {
+                traverse_region(&regions[i]);
+            }
+            printf("stop");
+        }
+
         for (int reg_idx = 0; reg_idx < regs_sqt_num * regs_sqt_num; reg_idx++) {
             region *current_region = &regions[reg_idx];
             for (int part_id = 0; part_id < current_region->particles_num; part_id++) {
@@ -85,5 +100,6 @@ void start_simulation(region *regions, input_data *input, int regs_sqt_num) {
                 part->velocity.to_north = part->next_velocity.to_north;
             }
         }
+
     }
 }

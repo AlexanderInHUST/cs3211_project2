@@ -57,7 +57,7 @@ void correct_velocity(particle *a, double g_energy, double k_energy, double tota
         scale = 1;
     } else {
         if (original_k_energy < 0) {
-            scale = 0.01;
+            scale = 0.1;
         } else {
             scale = sqrt(original_k_energy / k_energy);
         }

@@ -4,8 +4,9 @@
 
 #include "region.h"
 
-region *create_regions(input_data *input, int x, int y, int region_num) {
+region *create_regions(input_data *input, int region_sqt_num) {
 
+    int region_num = region_sqt_num * region_sqt_num;
     double grid_size = input->grid_size;
     int num_of_smalls = input->num_of_smalls;
     double small_mass = input->mass_of_smalls;
@@ -17,8 +18,6 @@ region *create_regions(input_data *input, int x, int y, int region_num) {
 
     new_region->grid_size = grid_size;
     new_region->particles_num = num_of_smalls + num_of_bigs;
-    new_region->pos_x = x;
-    new_region->pos_y = y;
     new_region->particle_array = (particle *) malloc
             (sizeof(particle) * MAX(DEFAULT_PART_ARRAY_LEN, new_region->particles_num * 2));
     for (int i = 0; i < num_of_smalls; i++) {
@@ -31,9 +30,26 @@ region *create_regions(input_data *input, int x, int y, int region_num) {
         load_particle(&new_region->particle_array[i + num_of_smalls], mass, radius, pos_x, pos_y, 0);
     }
     for (int i = 0; i < region_num; i++) {
-        memcpy(&regions[i], new_region, sizeof(region));
+        region *current_reg = &regions[i];
+        memcpy(current_reg, new_region, sizeof(region));
+        current_reg->particle_array = (particle *) malloc
+                (sizeof(particle) * MAX(DEFAULT_PART_ARRAY_LEN, new_region->particles_num * 2));
+        memcpy(current_reg->particle_array, new_region->particle_array,
+               sizeof(particle) * MAX(DEFAULT_PART_ARRAY_LEN, new_region->particles_num * 2));
+        regions[i].pos_x = i / region_sqt_num;
+        regions[i].pos_y = i % region_sqt_num;
     }
+    free_region (&new_region);
     return regions;
+}
+
+void free_regions(region **aim, int num_sqt) {
+    int num = num_sqt * num_sqt;
+    for (int i = 0; i < num; i++) {
+        region *cur = &(*aim)[i];
+        free(cur->particle_array);
+    }
+    free (*aim);
 }
 
 void free_region(region **aim) {
