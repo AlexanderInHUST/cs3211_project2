@@ -10,20 +10,23 @@
 #include "../util/random.h"
 #include "input_data.h"
 
-#define DEFAULT_PART_ARRAY_LEN 2048
 #define NOT_SMALL 1
 
 typedef struct region {
     int pos_x;
     int pos_y;
     int particles_num;
+    int array_length;
     double grid_size;
     struct particle *particle_array;
+    int *is_available;
 } region;
 
 void free_region(region **aim);
 void free_regions(region **aim, int num_sqt);
 region *create_regions(input_data *input, int region_sqt_num);
 void traverse_region(region *reg);
+int find_first_available(region *aim);
+void resize_region(region *aim);
 
 #endif //GALAXY_SIMULATION_REGION_H

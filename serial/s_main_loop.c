@@ -3,8 +3,6 @@
 //
 
 #include "s_main_loop.h"
-#include "s_image_generate.h"
-#include "../util/file_helper.h"
 
 void start_simulation(region *regions, input_data *input, int regs_sqt_num) {
     double time_step = input->time_step;
@@ -22,25 +20,37 @@ void start_simulation(region *regions, input_data *input, int regs_sqt_num) {
         store_file(image, file_name);
         free_output_data(&image);
 
-        double gravitational_energy = 0, kinetic_energy = 0;
+        if (step == 53) {
+            for (int i = 0; i < regs_sqt_num * regs_sqt_num; i++) {
+                traverse_region(&regions[i]);
+            }
+            printf ("stop!");
+        }
 
+        double gravitational_energy = 0, kinetic_energy = 0;
         for (int reg_idx = 0; reg_idx < regs_sqt_num * regs_sqt_num; reg_idx++) {
             region *current_region = &regions[reg_idx];
             int reg_start_x = MAX(reg_idx / regs_sqt_num - horizon, 0);
             int reg_start_y = MAX(reg_idx % regs_sqt_num - horizon, 0);
             int reg_end_x = MIN(reg_idx / regs_sqt_num + horizon, regs_sqt_num - 1);
             int reg_end_y = MIN(reg_idx % regs_sqt_num + horizon, regs_sqt_num - 1);
-
-            for (int part_id = 0; part_id < current_region->particles_num; part_id++) {
+            for (int part_id = 0, part_count = 0; part_count < current_region->particles_num; part_id++) {
+                if (current_region->is_available[part_id] == 0) {
+                    continue;
+                }
+                part_count++;
                 particle *part = &current_region->particle_array[part_id];
                 vector_pair *next_velocity = &part->next_velocity;
                 double global_part_x = reg_idx / regs_sqt_num * grid_size + part->x;
                 double global_part_y = reg_idx % regs_sqt_num * grid_size + part->y;
-
                 for (int reg_idx_x = 0; reg_idx_x < regs_sqt_num; reg_idx_x++) {
                     for (int reg_idx_y = 0; reg_idx_y < regs_sqt_num; reg_idx_y++) {
                         region *aim_region = &regions[reg_idx_x * regs_sqt_num + reg_idx_y];
-                        for (int aim_part_id = 0; aim_part_id < aim_region->particles_num; aim_part_id++) {
+                        for (int aim_part_id = 0, aim_part_count = 0; aim_part_count < aim_region->particles_num; aim_part_id++) {
+                            if (aim_region->is_available[aim_part_id] == 0) {
+                                continue;
+                            }
+                            aim_part_count++;
                             particle *aim_part = &aim_region->particle_array[aim_part_id];
                             double global_aim_x = reg_idx_x * grid_size + aim_part->x;
                             double global_aim_y = reg_idx_y * grid_size + aim_part->y;
@@ -53,13 +63,14 @@ void start_simulation(region *regions, input_data *input, int regs_sqt_num) {
                 for (int reg_idx_x = reg_start_x; reg_idx_x <= reg_end_x; reg_idx_x++) {
                     for (int reg_idx_y = reg_start_y; reg_idx_y <= reg_end_y; reg_idx_y++) {
                         region *aim_region = &regions[reg_idx_x * regs_sqt_num + reg_idx_y];
-
-                        for (int aim_part_id = 0; aim_part_id < aim_region->particles_num; aim_part_id++) {
+                        for (int aim_part_id = 0, aim_part_count = 0; aim_part_count < aim_region->particles_num; aim_part_id++) {
+                            if (aim_region->is_available[aim_part_id] == 0) {
+                                continue;
+                            }
+                            aim_part_count++;
                             particle *aim_part = &aim_region->particle_array[aim_part_id];
-
                             double global_aim_x = reg_idx_x * grid_size + aim_part->x;
                             double global_aim_y = reg_idx_y * grid_size + aim_part->y;
-
                             vector_pair *force = compute_gravitational_force(part, aim_part, global_part_x
                                     , global_part_y, global_aim_x, global_aim_y);
                             vector_pair *velocity_change = compute_velocity(part, force, time_step);
@@ -75,6 +86,7 @@ void start_simulation(region *regions, input_data *input, int regs_sqt_num) {
                 vector_pair *replacement = compute_displacement(part, time_step);
                 part->next_x += replacement->to_north;
                 part->next_y += replacement->to_east;
+
             }
         }
 
@@ -82,16 +94,14 @@ void start_simulation(region *regions, input_data *input, int regs_sqt_num) {
             total_energy = gravitational_energy;
         }
 
-        if (step == 3) {
-            for (int i = 0; i < 4; i++) {
-                traverse_region(&regions[i]);
-            }
-            printf("stop");
-        }
-
         for (int reg_idx = 0; reg_idx < regs_sqt_num * regs_sqt_num; reg_idx++) {
             region *current_region = &regions[reg_idx];
-            for (int part_id = 0; part_id < current_region->particles_num; part_id++) {
+            for (int part_id = 0, part_count = 0; part_count < current_region->particles_num; part_id++) {
+                if (current_region->is_available[part_id] == 0) {
+                    continue;
+                }
+                part_count++;
+
                 particle *part = &current_region->particle_array[part_id];
                 correct_velocity(part, gravitational_energy, kinetic_energy, total_energy);
                 part->x = part->next_x;
@@ -101,5 +111,30 @@ void start_simulation(region *regions, input_data *input, int regs_sqt_num) {
             }
         }
 
+        if (step == 54) {
+            for (int i = 0; i < regs_sqt_num * regs_sqt_num; i++) {
+                traverse_region(&regions[i]);
+            }
+            printf ("stop!");
+        }
+
+        for (int reg_idx = 0; reg_idx < regs_sqt_num * regs_sqt_num; reg_idx++) {
+            region *current_region = &regions[reg_idx];
+            int original_num =  current_region->particles_num;
+            for (int part_id = 0, part_count = 0; part_count < original_num; part_id++) {
+                if (current_region->is_available[part_id] == 0) {
+                    continue;
+                }
+                part_count++;
+                send_part_to_region(regions, reg_idx, part_id, regs_sqt_num, grid_size);
+            }
+        }
+
+        if (step == 54) {
+            for (int i = 0; i < regs_sqt_num * regs_sqt_num; i++) {
+                traverse_region(&regions[i]);
+            }
+            printf ("stop!");
+        }
     }
 }

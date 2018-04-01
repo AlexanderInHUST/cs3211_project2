@@ -10,8 +10,9 @@
 
 int main() {
     input_data * data = load_file("../input.in");
-    region * reg = create_regions(data, 3);
-    start_simulation(reg, data, 3);
+    region * reg = create_regions(data, 2);
+    start_simulation(reg, data, 2);
     free_input_data(&data);
-    free_regions(&reg, 3);
+    free_regions(&reg, 2);
+//    printf("%ld", sizeof(region));
 }

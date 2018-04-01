@@ -7,6 +7,9 @@
 
 #include "../model/region.h"
 #include "../util/physics.h"
+#include "../util/file_helper.h"
+#include "s_swap_particles.h"
+#include "s_image_generate.h"
 
 void start_simulation(region *regions, input_data *input, int num_of_regions);
 
