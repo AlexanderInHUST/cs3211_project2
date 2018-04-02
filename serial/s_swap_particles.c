@@ -5,15 +5,14 @@
 #include "s_swap_particles.h"
 
 void send_particle(region *des, region *src, int part_id) {
-    src->is_available[part_id] = 0;
+    src->is_occupied[part_id] = 0;
     src->particles_num--;
     particle *send_part = &src->particle_array[part_id];
-    resize_region(des);
+    enlarge_region(des);
     int recv_pos = find_first_available(des);
     des->particles_num++;
-    des->is_available[recv_pos] = 1;
+    des->is_occupied[recv_pos] = 1;
     memcpy(&des->particle_array[recv_pos], send_part, sizeof(particle));
-    resize_region(src);
 }
 
 int test_part_pos (particle *part, int grid_size) {

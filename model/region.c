@@ -19,28 +19,28 @@ region *create_regions(input_data *input, int region_sqt_num) {
     new_region->particles_num = num_of_smalls + num_of_bigs;
     new_region->array_length = new_region->particles_num * 2;
     new_region->particle_array = (particle *) malloc (sizeof(particle) * new_region->array_length);
-    new_region->is_available = (int *) malloc (sizeof(int) * new_region->array_length);
-    memset(new_region->is_available, 0, sizeof(int) * new_region->array_length);
+    new_region->is_occupied = (int *) malloc (sizeof(int) * new_region->array_length);
+    memset(new_region->is_occupied, 0, sizeof(int) * new_region->array_length);
 
     for (int i = 0; i < num_of_smalls; i++) {
         load_particle(&new_region->particle_array[i], small_mass, small_radius,
                       next_double(grid_size), next_double(grid_size), (small_radius > NOT_SMALL) ? 0 : 1);
-        new_region->is_available[i] = 1;
+        new_region->is_occupied[i] = 1;
     }
     for (int i = 0; i < num_of_bigs; i++) {
         double radius, mass, pos_x, pos_y;
         sscanf(bigs_data[i], "%lf %lf %lf %lf", &radius, &mass, &pos_x, &pos_y);
         load_particle(&new_region->particle_array[i + num_of_smalls], mass, radius, pos_x, pos_y, 0);
-        new_region->is_available[i + num_of_smalls] = 1;
+        new_region->is_occupied[i + num_of_smalls] = 1;
     }
 
     for (int i = 0; i < region_num; i++) {
         region *current_reg = &regions[i];
         memcpy(current_reg, new_region, sizeof(region));
         current_reg->particle_array = (particle *) malloc (sizeof(particle) * new_region->array_length);
-        current_reg->is_available = (int *) malloc (sizeof(int) * new_region->array_length);
+        current_reg->is_occupied = (int *) malloc (sizeof(int) * new_region->array_length);
         memcpy(current_reg->particle_array, new_region->particle_array, sizeof(particle) * new_region->particles_num);
-        memcpy(current_reg->is_available, new_region->is_available, sizeof(int) * new_region->array_length);
+        memcpy(current_reg->is_occupied, new_region->is_occupied, sizeof(int) * new_region->array_length);
         regions[i].pos_x = i / region_sqt_num;
         regions[i].pos_y = i % region_sqt_num;
     }
@@ -53,14 +53,14 @@ void free_regions(region **aim, int num_sqt) {
     for (int i = 0; i < num; i++) {
         region *cur = &(*aim)[i];
         free(cur->particle_array);
-        free(cur->is_available);
+        free(cur->is_occupied);
     }
     free(*aim);
 }
 
 void free_region(region **aim) {
     free((*aim)->particle_array);
-    free((*aim)->is_available);
+    free((*aim)->is_occupied);
     free(*aim);
 }
 
@@ -70,15 +70,15 @@ void traverse_region(region *reg) {
     printf("The grid_size is %lf\n", reg->grid_size);
     for (int i = 0; i < reg->particles_num; i++) {
         particle *this = &reg->particle_array[i];
-        printf("The %d particle is at (%lf, %lf) and has a radius of %lf mass of %lf and is_available = %d\n", i, this->x,
-               this->y, this->radius, this->mass, reg->is_available[i]);
+        printf("The %d particle is at (%lf, %lf) and has a radius of %lf mass of %lf and is_occupied = %d\n", i, this->x,
+               this->y, this->radius, this->mass, reg->is_occupied[i]);
     }
 }
 
 int find_first_available(region *aim) {
     int available_pos = -1;
     for (int i = 0; i < aim->array_length; i++) {
-        if (aim->is_available[i] == 0) {
+        if (aim->is_occupied[i] == 0) {
             available_pos = i;
             break;
         }
@@ -86,29 +86,33 @@ int find_first_available(region *aim) {
     return available_pos;
 }
 
-void resize_region(region *aim) {
-    if (aim->particles_num == aim->array_length) {
-        int len = aim->array_length * 2 + 4;
-        aim->is_available = realloc(aim->is_available, sizeof(int) * aim->array_length * 2);
-        memset(&aim->is_available[aim->array_length], 0, sizeof(int) * aim->array_length);
-        aim->particle_array = realloc(aim->particle_array, sizeof(particle) * aim->array_length * 2);
-        aim->array_length *= 2;
-    } else if (aim->particles_num < aim->array_length / 4) {
-        particle *temp_particles = (particle *) malloc (sizeof(particle) * aim->array_length / 2);
-        int *temp_available = (int *) malloc (sizeof(int) * aim->array_length / 2);
-        memset(temp_available, 0, sizeof(int) * aim->array_length / 2);
+void shrink_region(region *aim) {
+    if (aim->particles_num < aim->array_length / 4) {
+        int len = MAX(aim->array_length / 2, 2);
+        particle *temp_particles = (particle *) malloc (sizeof(particle) * len);
+        int *temp_occupied = (int *) malloc (sizeof(int) * len);
+        memset(temp_occupied, 0, sizeof(int) * len);
         int pos = 0;
         for (int i = 0; pos < aim->particles_num; i++) {
-            if (aim->is_available[i] == 1) {
+            if (aim->is_occupied[i] == 1) {
                 memcpy(&temp_particles[pos], &aim->particle_array[i], sizeof(particle));
-                temp_available[pos] = 1;
+                temp_occupied[pos] = 1;
                 pos++;
             }
         }
         free(aim->particle_array);
-        free(aim->is_available);
+        free(aim->is_occupied);
         aim->particle_array = temp_particles;
-        aim->is_available = temp_available;
-        aim->array_length /= 2;
+        aim->is_occupied = temp_occupied;
+        aim->array_length = len;
+    }
+}
+
+void enlarge_region(region *aim) {
+    if (aim->particles_num >= aim->array_length) {
+        aim->is_occupied = realloc(aim->is_occupied, sizeof(int) * aim->array_length * 2);
+        memset(&aim->is_occupied[aim->array_length], 0, sizeof(int) * aim->array_length);
+        aim->particle_array = realloc(aim->particle_array, sizeof(particle) * aim->array_length * 2);
+        aim->array_length *= 2;
     }
 }

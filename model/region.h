@@ -19,7 +19,7 @@ typedef struct region {
     int array_length;
     double grid_size;
     struct particle *particle_array;
-    int *is_available;
+    int *is_occupied;
 } region;
 
 void free_region(region **aim);
@@ -27,6 +27,7 @@ void free_regions(region **aim, int num_sqt);
 region *create_regions(input_data *input, int region_sqt_num);
 void traverse_region(region *reg);
 int find_first_available(region *aim);
-void resize_region(region *aim);
+void shrink_region(region *aim);
+void enlarge_region(region *aim);
 
 #endif //GALAXY_SIMULATION_REGION_H

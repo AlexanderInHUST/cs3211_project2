@@ -20,11 +20,11 @@ void start_simulation(region *regions, input_data *input, int regs_sqt_num) {
         store_file(image, file_name);
         free_output_data(&image);
 
-        if (step == 53) {
+        if (step == 91) {
             for (int i = 0; i < regs_sqt_num * regs_sqt_num; i++) {
                 traverse_region(&regions[i]);
             }
-            printf ("stop!");
+            printf ("1 stop!");
         }
 
         double gravitational_energy = 0, kinetic_energy = 0;
@@ -35,7 +35,7 @@ void start_simulation(region *regions, input_data *input, int regs_sqt_num) {
             int reg_end_x = MIN(reg_idx / regs_sqt_num + horizon, regs_sqt_num - 1);
             int reg_end_y = MIN(reg_idx % regs_sqt_num + horizon, regs_sqt_num - 1);
             for (int part_id = 0, part_count = 0; part_count < current_region->particles_num; part_id++) {
-                if (current_region->is_available[part_id] == 0) {
+                if (current_region->is_occupied[part_id] == 0) {
                     continue;
                 }
                 part_count++;
@@ -47,7 +47,7 @@ void start_simulation(region *regions, input_data *input, int regs_sqt_num) {
                     for (int reg_idx_y = 0; reg_idx_y < regs_sqt_num; reg_idx_y++) {
                         region *aim_region = &regions[reg_idx_x * regs_sqt_num + reg_idx_y];
                         for (int aim_part_id = 0, aim_part_count = 0; aim_part_count < aim_region->particles_num; aim_part_id++) {
-                            if (aim_region->is_available[aim_part_id] == 0) {
+                            if (aim_region->is_occupied[aim_part_id] == 0) {
                                 continue;
                             }
                             aim_part_count++;
@@ -64,7 +64,7 @@ void start_simulation(region *regions, input_data *input, int regs_sqt_num) {
                     for (int reg_idx_y = reg_start_y; reg_idx_y <= reg_end_y; reg_idx_y++) {
                         region *aim_region = &regions[reg_idx_x * regs_sqt_num + reg_idx_y];
                         for (int aim_part_id = 0, aim_part_count = 0; aim_part_count < aim_region->particles_num; aim_part_id++) {
-                            if (aim_region->is_available[aim_part_id] == 0) {
+                            if (aim_region->is_occupied[aim_part_id] == 0) {
                                 continue;
                             }
                             aim_part_count++;
@@ -94,10 +94,17 @@ void start_simulation(region *regions, input_data *input, int regs_sqt_num) {
             total_energy = gravitational_energy;
         }
 
+        if (step == 91) {
+            for (int i = 0; i < regs_sqt_num * regs_sqt_num; i++) {
+                traverse_region(&regions[i]);
+            }
+            printf ("2 stop!");
+        }
+
         for (int reg_idx = 0; reg_idx < regs_sqt_num * regs_sqt_num; reg_idx++) {
             region *current_region = &regions[reg_idx];
             for (int part_id = 0, part_count = 0; part_count < current_region->particles_num; part_id++) {
-                if (current_region->is_available[part_id] == 0) {
+                if (current_region->is_occupied[part_id] == 0) {
                     continue;
                 }
                 part_count++;
@@ -111,30 +118,32 @@ void start_simulation(region *regions, input_data *input, int regs_sqt_num) {
             }
         }
 
-        if (step == 54) {
+        if (step == 91) {
             for (int i = 0; i < regs_sqt_num * regs_sqt_num; i++) {
                 traverse_region(&regions[i]);
             }
-            printf ("stop!");
+            printf ("3 stop!");
         }
 
         for (int reg_idx = 0; reg_idx < regs_sqt_num * regs_sqt_num; reg_idx++) {
             region *current_region = &regions[reg_idx];
             int original_num =  current_region->particles_num;
             for (int part_id = 0, part_count = 0; part_count < original_num; part_id++) {
-                if (current_region->is_available[part_id] == 0) {
+                if (current_region->is_occupied[part_id] == 0) {
                     continue;
                 }
                 part_count++;
                 send_part_to_region(regions, reg_idx, part_id, regs_sqt_num, grid_size);
             }
+            shrink_region(current_region);
         }
 
-        if (step == 54) {
+        if (step == 91) {
             for (int i = 0; i < regs_sqt_num * regs_sqt_num; i++) {
                 traverse_region(&regions[i]);
             }
-            printf ("stop!");
+            printf ("4 stop!");
         }
+
     }
 }
