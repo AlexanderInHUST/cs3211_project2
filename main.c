@@ -10,6 +10,7 @@
 #include "parallel/p_initial_regions.h"
 #include "parallel/p_image_generate.h"
 #include "parallel/p_image_store.h"
+#include "parallel/p_mpi_environment.h"
 
 int main(int argc, char * argv[]) {
 //    input_data * data = load_file("../input.in");
@@ -20,16 +21,20 @@ int main(int argc, char * argv[]) {
 
     input_data * data = load_file("../input.in");
     MPI_Datatype *MPI_PARTICLE, *MPI_VECTOR_PAIR;
-    MPI_PARTICLE = (MPI_Datatype *) malloc(sizeof(MPI_Datatype));
-    MPI_VECTOR_PAIR = (MPI_Datatype *) malloc(sizeof(MPI_Datatype));
-    int proc_id, proc_num;
+    MPI_Comm MPI_2D_COMM;
+    int proc_id_x, proc_id_y, proc_num, proc_id;
 
-    MPI_Init(&argc, &argv);
-    MPI_Comm_rank(MPI_COMM_WORLD, &proc_id);
-    MPI_Comm_size(MPI_COMM_WORLD, &proc_num);
-    p_create_all_structs(&MPI_PARTICLE, &MPI_VECTOR_PAIR);
-    region * reg = p_create_regions(data, proc_id, (int) sqrt(proc_num));
-    ppm_image * image = p_create_ppm_image(reg);
-    p_store_file(image, "test.ppm", proc_id, (int) sqrt(proc_num));
-    MPI_Finalize();
+    p_mpi_initial(&MPI_PARTICLE, &MPI_VECTOR_PAIR, &proc_num, argc, argv);
+    p_mpi_cart_divide(&proc_id_x, &proc_id_y, &proc_id, (int) sqrt(proc_num), &MPI_2D_COMM);
+    printf ("%d: %d %d\n", proc_id, proc_id_x, proc_id_y);
+    region * reg = p_create_regions(data, proc_id_x, proc_id_y);
+
+    ppm_image * image = p_create_ppm_image(reg, proc_id, (int) sqrt(proc_num));
+
+    p_store_file(image, "test.ppm", proc_id, proc_id_x, proc_id_y, (int) sqrt(proc_num));
+
+    p_mpi_finalize();
+//    MPI_Finalize();
+
+    return 0;
 }

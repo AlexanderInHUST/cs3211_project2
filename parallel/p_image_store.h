@@ -7,6 +7,6 @@
 
 #include "../model/ppm_image.h"
 
-void p_store_file (ppm_image * image, char * file_name, int proc_id, int region_sqt_num);
+void p_store_file (ppm_image * image, char * file_name, int proc_id, int proc_id_x, int proc_id_y, int region_sqt_num);
 
 #endif //GALAXY_SIMULATION_P_IMAGE_STORE_H

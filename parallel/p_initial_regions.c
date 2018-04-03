@@ -4,7 +4,7 @@
 
 #include "p_initial_regions.h"
 
-region *p_create_regions(input_data *input, int proc_id, int region_sqt_num) {
+region *p_create_regions(input_data *input, int proc_id_x, int proc_id_y) {
     double grid_size = input->grid_size;
     int num_of_smalls = input->num_of_smalls;
     double small_mass = input->mass_of_smalls;
@@ -13,8 +13,8 @@ region *p_create_regions(input_data *input, int proc_id, int region_sqt_num) {
     char **bigs_data = input->bigs_data;
     region *new_region = (region *) malloc(sizeof(region));
 
-    new_region->pos_x = proc_id / region_sqt_num;
-    new_region->pos_y = proc_id % region_sqt_num;
+    new_region->pos_x = proc_id_x;
+    new_region->pos_y = proc_id_y;
     new_region->grid_size = grid_size;
     new_region->particles_num = num_of_smalls + num_of_bigs;
     new_region->array_length = new_region->particles_num * 2;

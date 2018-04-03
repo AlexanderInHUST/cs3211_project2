@@ -4,7 +4,7 @@
 
 #include "p_image_store.h"
 
-void p_store_file (ppm_image * image, char * file_name, int proc_id, int region_sqt_num) {
+void p_store_file (ppm_image * image, char * file_name, int proc_id, int proc_id_x, int proc_id_y, int region_sqt_num) {
     MPI_File file_handle;
     MPI_File_open(MPI_COMM_WORLD, file_name, MPI_MODE_CREATE | MPI_MODE_WRONLY, MPI_INFO_NULL, &file_handle);
     char first_line[10] = "P3\n";
@@ -21,10 +21,8 @@ void p_store_file (ppm_image * image, char * file_name, int proc_id, int region_
         MPI_File_write_at(file_handle, dis_2, third_line, (int)strlen(third_line), MPI_CHAR, MPI_STATUS_IGNORE);
     }
 
-    int image_pos_x = proc_id / region_sqt_num;
-    int image_pos_y = proc_id % region_sqt_num;
-    int start_dis = (image_pos_x * image->height * (region_sqt_num * (image->width * 3 * 4) + 1))
-                    + (image_pos_y * (image->width * 3 * 4)) + dis_3;
+    int start_dis = (proc_id_x * image->height * (region_sqt_num * (image->width * 3 * 4) + 1))
+                    + (proc_id_y * (image->width * 3 * 4)) + dis_3;
     for (int i = 0; i < image->height; i++) {
         for (int j = 0; j < image->width; j++) {
             char part_data[20];
@@ -34,8 +32,8 @@ void p_store_file (ppm_image * image, char * file_name, int proc_id, int region_
                     image->data[(i * image->height + j) * 3 + 2]);
             MPI_File_write_at(file_handle, start_dis + j * 12, part_data, 12, MPI_CHAR, MPI_STATUS_IGNORE);
         }
-        if (image_pos_y == region_sqt_num - 1) {
-            MPI_File_write_at(file_handle, start_dis + (image->width - 1) * 12, "\n", 1, MPI_CHAR, MPI_STATUS_IGNORE);
+        if (proc_id_y == region_sqt_num - 1) {
+            MPI_File_write_at(file_handle, start_dis + image->width * 12, "\n", 1, MPI_CHAR, MPI_STATUS_IGNORE);
         }
         start_dis += (region_sqt_num * (image->width * 3 * 4) + 1);
     }
