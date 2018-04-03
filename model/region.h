@@ -22,8 +22,6 @@ typedef struct region {
     int *is_occupied;
 } region;
 
-void free_region(region **aim);
-
 void traverse_region(region *reg);
 int find_first_available(region *aim);
 void shrink_region(region *aim);

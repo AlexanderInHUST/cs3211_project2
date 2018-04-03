@@ -4,12 +4,6 @@
 
 #include "region.h"
 
-void free_region(region **aim) {
-    free((*aim)->particle_array);
-    free((*aim)->is_occupied);
-    free(*aim);
-}
-
 void traverse_region(region *reg) {
     printf("The pos_x is %d and pox_y is %d\n", reg->pos_x, reg->pos_y);
     printf("The particles_num is %d\n", reg->particles_num);

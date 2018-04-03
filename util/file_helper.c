@@ -39,27 +39,6 @@ void free_input_data (input_data ** data) {
     free (*data);
 }
 
-void store_file (ppm_image * image, char * file_name) {
-    FILE * ppm_file = fopen(file_name, "w");
-    if (ppm_file == NULL) {
-        fprintf(stderr, "Cannot create file!");
-        exit(1);
-    }
-    fprintf(ppm_file, "P3\n");
-    fprintf(ppm_file, "%d %d\n", image->width, image->height);
-    fprintf(ppm_file, "255\n");
-    for (int i = 0; i < image->height; i++) {
-        for (int j = 0; j < image->width; j++) {
-            fprintf(ppm_file, "%d %d %d\t",
-                    image->data[(i * image->height + j) * 3 + 0],
-                    image->data[(i * image->height + j) * 3 + 1],
-                    image->data[(i * image->height + j) * 3 + 2]);
-        }
-        fprintf(ppm_file, "\n");
-    }
-    fclose(ppm_file);
-}
-
 void free_output_data (ppm_image ** image) {
     free((*image)->data);
     free((*image));

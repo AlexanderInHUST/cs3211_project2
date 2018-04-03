@@ -10,6 +10,7 @@
 #include "../util/file_helper.h"
 #include "s_swap_particles.h"
 #include "s_image_generate.h"
+#include "s_image_store.h"
 
 void s_start_simulation(region *regions, input_data *input, int num_of_regions);
 

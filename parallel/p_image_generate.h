@@ -10,6 +10,6 @@
 #include "../model/ppm_image.h"
 #include "../util/image_painter.h"
 
-ppm_image * p_create_ppm_image(region * reg, int regs_num, int proc_id);
+ppm_image * p_create_ppm_image(region * reg);
 
 #endif //GALAXY_SIMULATION_P_IMAGE_GENERATE_H
