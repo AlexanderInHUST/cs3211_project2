@@ -1,0 +1,8 @@
+//
+// Created by 唐艺峰 on 2018/4/3.
+//
+
+#ifndef GALAXY_SIMULATION_P_MAIN_LOOP_H
+#define GALAXY_SIMULATION_P_MAIN_LOOP_H
+
+#endif //GALAXY_SIMULATION_P_MAIN_LOOP_H

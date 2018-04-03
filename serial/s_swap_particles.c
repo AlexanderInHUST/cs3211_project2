@@ -4,7 +4,7 @@
 
 #include "s_swap_particles.h"
 
-void send_particle(region *des, region *src, int part_id) {
+void s_send_particle(region *des, region *src, int part_id) {
     src->is_occupied[part_id] = 0;
     src->particles_num--;
     particle *send_part = &src->particle_array[part_id];
@@ -15,7 +15,7 @@ void send_particle(region *des, region *src, int part_id) {
     memcpy(&des->particle_array[recv_pos], send_part, sizeof(particle));
 }
 
-int test_part_pos (particle *part, int grid_size) {
+int s_test_part_pos(particle *part, int grid_size) {
     int next_region_direction = NO;
     if (part->x < 0) {
         next_region_direction |= UP;
@@ -30,12 +30,12 @@ int test_part_pos (particle *part, int grid_size) {
     return next_region_direction;
 }
 
-void send_part_to_region (region *regions, int region_idx, int part_id, int region_sqt_num, int grid_size) {
+void s_send_part_to_region(region *regions, int region_idx, int part_id, int region_sqt_num, int grid_size) {
     int region_x = region_idx / region_sqt_num;
     int region_y = region_idx % region_sqt_num;
     int move_x = 0;
     int move_y = 0;
-    int direction = test_part_pos(&regions[region_idx].particle_array[part_id], grid_size);
+    int direction = s_test_part_pos(&regions[region_idx].particle_array[part_id], grid_size);
     if ((direction & LEFT) != 0) {
         if (region_y != 0) {
             move_y = -1;
@@ -60,5 +60,5 @@ void send_part_to_region (region *regions, int region_idx, int part_id, int regi
     particle *part = &regions[region_idx].particle_array[part_id];
     part->next_x = part->x = part->x - move_x * grid_size;
     part->next_y = part->y = part->y - move_y * grid_size;
-    send_particle(&regions[des_region_id], &regions[region_idx], part_id);
+    s_send_particle(&regions[des_region_id], &regions[region_idx], part_id);
 }

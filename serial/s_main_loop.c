@@ -4,7 +4,7 @@
 
 #include "s_main_loop.h"
 
-void start_simulation(region *regions, input_data *input, int regs_sqt_num) {
+void s_start_simulation(region *regions, input_data *input, int regs_sqt_num) {
     double time_step = input->time_step;
     int total_shots = input->time_slots;
     int horizon = input->horizon;
@@ -19,13 +19,6 @@ void start_simulation(region *regions, input_data *input, int regs_sqt_num) {
         sprintf(file_name, "test%d.ppm", step);
         store_file(image, file_name);
         free_output_data(&image);
-
-        if (step == 91) {
-            for (int i = 0; i < regs_sqt_num * regs_sqt_num; i++) {
-                traverse_region(&regions[i]);
-            }
-            printf ("1 stop!");
-        }
 
         double gravitational_energy = 0, kinetic_energy = 0;
         for (int reg_idx = 0; reg_idx < regs_sqt_num * regs_sqt_num; reg_idx++) {
@@ -94,13 +87,6 @@ void start_simulation(region *regions, input_data *input, int regs_sqt_num) {
             total_energy = gravitational_energy;
         }
 
-        if (step == 91) {
-            for (int i = 0; i < regs_sqt_num * regs_sqt_num; i++) {
-                traverse_region(&regions[i]);
-            }
-            printf ("2 stop!");
-        }
-
         for (int reg_idx = 0; reg_idx < regs_sqt_num * regs_sqt_num; reg_idx++) {
             region *current_region = &regions[reg_idx];
             for (int part_id = 0, part_count = 0; part_count < current_region->particles_num; part_id++) {
@@ -118,32 +104,18 @@ void start_simulation(region *regions, input_data *input, int regs_sqt_num) {
             }
         }
 
-        if (step == 91) {
-            for (int i = 0; i < regs_sqt_num * regs_sqt_num; i++) {
-                traverse_region(&regions[i]);
-            }
-            printf ("3 stop!");
-        }
 
         for (int reg_idx = 0; reg_idx < regs_sqt_num * regs_sqt_num; reg_idx++) {
             region *current_region = &regions[reg_idx];
-            int original_num =  current_region->particles_num;
+            int original_num = current_region->particles_num;
             for (int part_id = 0, part_count = 0; part_count < original_num; part_id++) {
                 if (current_region->is_occupied[part_id] == 0) {
                     continue;
                 }
                 part_count++;
-                send_part_to_region(regions, reg_idx, part_id, regs_sqt_num, grid_size);
+                s_send_part_to_region(regions, reg_idx, part_id, regs_sqt_num, grid_size);
             }
             shrink_region(current_region);
         }
-
-        if (step == 91) {
-            for (int i = 0; i < regs_sqt_num * regs_sqt_num; i++) {
-                traverse_region(&regions[i]);
-            }
-            printf ("4 stop!");
-        }
-
     }
 }

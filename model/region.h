@@ -23,8 +23,7 @@ typedef struct region {
 } region;
 
 void free_region(region **aim);
-void free_regions(region **aim, int num_sqt);
-region *create_regions(input_data *input, int region_sqt_num);
+
 void traverse_region(region *reg);
 int find_first_available(region *aim);
 void shrink_region(region *aim);
