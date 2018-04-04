@@ -95,6 +95,9 @@ ppm_image *p_create_ppm_image(region *reg, int proc_id_x, int proc_id_y, int reg
             particle *part = &add_parts[j];
             paint_on_ppm(image, part, 0, 0);
         }
+        if (add_part_num != 0) {
+            free(add_parts);
+        }
     }
 
     return image;
