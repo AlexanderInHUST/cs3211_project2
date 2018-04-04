@@ -26,15 +26,11 @@ int main(int argc, char * argv[]) {
 
     p_mpi_initial(&MPI_PARTICLE, &MPI_VECTOR_PAIR, &proc_num, argc, argv);
     p_mpi_cart_divide(&proc_id_x, &proc_id_y, &proc_id, (int) sqrt(proc_num), &MPI_2D_COMM);
-    printf ("%d: %d %d\n", proc_id, proc_id_x, proc_id_y);
     region * reg = p_create_regions(data, proc_id_x, proc_id_y);
-
-    ppm_image * image = p_create_ppm_image(reg, proc_id, (int) sqrt(proc_num));
-
+    ppm_image * image = p_create_ppm_image(reg, proc_id_x, proc_id_y, (int) sqrt(proc_num), MPI_2D_COMM, *MPI_PARTICLE);
     p_store_file(image, "test.ppm", proc_id, proc_id_x, proc_id_y, (int) sqrt(proc_num));
 
     p_mpi_finalize();
-//    MPI_Finalize();
 
     return 0;
 }

@@ -5,32 +5,29 @@
 #include "p_initial_struct.h"
 
 void p_create_vector_pair(MPI_Datatype **MPI_VECTOR_PAIR) {
-    vector_pair tmp;
     MPI_Datatype type[2] = {MPI_DOUBLE, MPI_DOUBLE};
-    int block_len[2] = {sizeof(double), sizeof(double)};
+    int block_len[2] = {1, 1};
     MPI_Aint dis[2];
-    dis[0] = (int *)&tmp.to_east - (int *)&tmp;
-    dis[1] = (int *)&tmp.to_north - (int *)&tmp;
+    dis[0] = 0;
+    dis[1] = sizeof(double) + dis[0];
     MPI_Type_create_struct(2, block_len, dis, type, *MPI_VECTOR_PAIR);
     MPI_Type_commit(*MPI_VECTOR_PAIR);
 }
 
 void p_create_particle(MPI_Datatype **MPI_PARTICLE, MPI_Datatype MPI_VECTOR_PAIR) {
-    particle tmp;
     MPI_Datatype type[9] = {MPI_DOUBLE, MPI_DOUBLE, MPI_DOUBLE, MPI_DOUBLE, MPI_DOUBLE, MPI_DOUBLE,
                             MPI_VECTOR_PAIR, MPI_VECTOR_PAIR, MPI_INT};
-    int block_len[9] = {sizeof(double), sizeof(double), sizeof(double), sizeof(double), sizeof(double), sizeof(double),
-                        sizeof(vector_pair), sizeof(vector_pair), sizeof(int)};
+    int block_len[9] = {1, 1, 1, 1, 1, 1, 1, 1, 1};
     MPI_Aint dis[9];
-    dis[0] = (int *)&tmp.x - (int *)&tmp;
-    dis[1] = (int *)&tmp.y - (int *)&tmp;
-    dis[2] = (int *)&tmp.next_x - (int *)&tmp;
-    dis[3] = (int *)&tmp.next_y - (int *)&tmp;
-    dis[4] = (int *)&tmp.mass - (int *)&tmp;
-    dis[5] = (int *)&tmp.radius - (int *)&tmp;
-    dis[6] = (int *)&tmp.velocity - (int *)&tmp;
-    dis[7] = (int *)&tmp.next_velocity - (int *)&tmp;
-    dis[8] = (int *)&tmp.is_small - (int *)&tmp;
+    dis[0] = 0;
+    dis[1] = sizeof(double) + dis[0];
+    dis[2] = sizeof(double) + dis[0];
+    dis[3] = sizeof(double) + dis[0];
+    dis[4] = sizeof(double) + dis[0];
+    dis[5] = sizeof(double) + dis[0];
+    dis[6] = sizeof(double) + dis[0];
+    dis[7] = sizeof(vector_pair) + dis[0];
+    dis[8] = sizeof(vector_pair) + dis[0];
     MPI_Type_create_struct(9, block_len, dis, type, *MPI_PARTICLE);
     MPI_Type_commit(*MPI_PARTICLE);
 }
