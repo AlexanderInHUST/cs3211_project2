@@ -7,7 +7,12 @@
 
 #include "../model/input_data.h"
 #include "../model/region.h"
+#include "../model/ppm_image.h"
+#include "p_image_generate.h"
+#include "p_image_store.h"
+#include "../util/file_helper.h"
 
-void s_start_simulation(region *regions, input_data *input, int num_of_regions, MPI_Comm MPI_2D_COMM, MPI_Datatype MPI_PARTICLE);
+void p_start_simulation(region *region, input_data *input, int proc_id_x, int proc_id_y, int proc_id, int reg_sqrt_num,
+                        MPI_Comm MPI_2D_COMM, MPI_Datatype MPI_PARTICLE);
 
 #endif //GALAXY_SIMULATION_P_MAIN_LOOP_H

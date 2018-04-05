@@ -5,10 +5,11 @@
 #include "p_mpi_environment.h"
 
 void p_mpi_initial(MPI_Datatype *MPI_PARTICLE, MPI_Datatype *MPI_VECTOR_PAIR,
-                   int *proc_num, int argc, char *argv[]) {
+                   int *reg_sqrt_num, int *proc_num, int argc, char *argv[]) {
     MPI_Init(&argc, &argv);
     MPI_Comm_size(MPI_COMM_WORLD, proc_num);
     p_create_all_structs(MPI_PARTICLE, MPI_VECTOR_PAIR);
+    *reg_sqrt_num = (int) sqrt(*proc_num);
 }
 
 void p_mpi_finalize() {
