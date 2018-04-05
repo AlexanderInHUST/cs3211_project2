@@ -105,6 +105,7 @@ ppm_image *p_create_ppm_image(region *reg, int proc_id_x, int proc_id_y, int reg
         particle *add_parts = recv_edge_parts[i];
         for (int j = 0; j < add_part_num; j++) {
             particle *part = &add_parts[j];
+            printf ("x:%d y:%d part_x:%lf part_y:%lf\n", proc_id_x, proc_id_y, part->x, part->y);
             paint_on_ppm(image, part, 0, 0);
         }
         if (add_part_num != 0) {
