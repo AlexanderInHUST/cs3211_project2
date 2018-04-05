@@ -28,12 +28,24 @@ ppm_image *p_create_ppm_image(region *reg, int proc_id_x, int proc_id_y, int reg
         if (proc_id_y != region_sqt_num - 1 && part->y + part->radius > grid_size) at_edges |= RIGHT;
 
         for (int j = 0; j < 3; j++) {
-            int edge = magic_direction_map[at_edges][j];
-            if (edge == -1) {
+            int dir = magic_direction_map[at_edges][j];
+            if (dir == -1) {
                 break;
             }
-            memcpy(&send_edge_parts[edge][send_edge_parts_num[edge]], part, sizeof(particle));
-            send_edge_parts_num[edge]++;
+            memcpy(&send_edge_parts[dir][send_edge_parts_num[dir]], part, sizeof(particle));
+            particle *sent_part = &send_edge_parts[dir][send_edge_parts_num[dir]];
+            switch (dir) {
+                case 0: sent_part->x += grid_size; break;
+                case 1: sent_part->x -= grid_size; break;
+                case 2: sent_part->y += grid_size; break;
+                case 3: sent_part->y -= grid_size; break;
+                case 4: sent_part->x += grid_size; sent_part->y += grid_size; break;
+                case 5: sent_part->x += grid_size; sent_part->y -= grid_size; break;
+                case 6: sent_part->x -= grid_size; sent_part->y += grid_size; break;
+                case 7: sent_part->x -= grid_size; sent_part->y -= grid_size; break;
+                default: break;
+            }
+            send_edge_parts_num[dir]++;
         }
     }
 
