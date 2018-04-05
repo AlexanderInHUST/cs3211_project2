@@ -11,13 +11,17 @@ ppm_image *p_create_ppm_image(region *reg, int proc_id_x, int proc_id_y, int reg
     image->data = (int *) malloc(sizeof(int *) * grid_size * grid_size * 3);
     memset(image->data, 0, sizeof(int *) * grid_size * grid_size * 3);
 
-    particle send_edge_parts[8][reg->particles_num];
+    simplified_part send_edge_parts[8][reg->particles_num];
     int send_edge_parts_num[8] = {0}; // UP DOWN LEFT RIGHT UL UR DL DR
-
-    particle *recv_edge_parts[8];
+    simplified_part *recv_edge_parts[8];
     int recv_edge_parts_num[8] = {0};
 
-    for (int i = 0; i < reg->particles_num; i++) {
+    for (int i = 0, part_count = 0; part_count < reg->particles_num; i++) {
+        if(reg->is_occupied[i] == 0) {
+            continue;
+        }
+        part_count++;
+
         particle *part = &reg->particle_array[i];
         paint_on_ppm(image, part, 0, 0);
 
@@ -32,20 +36,21 @@ ppm_image *p_create_ppm_image(region *reg, int proc_id_x, int proc_id_y, int reg
             if (dir == -1) {
                 break;
             }
-            memcpy(&send_edge_parts[dir][send_edge_parts_num[dir]], part, sizeof(particle));
-            particle *sent_part = &send_edge_parts[dir][send_edge_parts_num[dir]];
+            simplified_part *sim_part = from_part(*part);
             switch (dir) {
-                case 0: sent_part->x += grid_size; break;
-                case 1: sent_part->x -= grid_size; break;
-                case 2: sent_part->y += grid_size; break;
-                case 3: sent_part->y -= grid_size; break;
-                case 4: sent_part->x += grid_size; sent_part->y += grid_size; break;
-                case 5: sent_part->x += grid_size; sent_part->y -= grid_size; break;
-                case 6: sent_part->x -= grid_size; sent_part->y += grid_size; break;
-                case 7: sent_part->x -= grid_size; sent_part->y -= grid_size; break;
+                case 0: sim_part->x += grid_size; break;
+                case 1: sim_part->x -= grid_size; break;
+                case 2: sim_part->y += grid_size; break;
+                case 3: sim_part->y -= grid_size; break;
+                case 4: sim_part->x += grid_size; sim_part->y += grid_size; break;
+                case 5: sim_part->x += grid_size; sim_part->y -= grid_size; break;
+                case 6: sim_part->x -= grid_size; sim_part->y += grid_size; break;
+                case 7: sim_part->x -= grid_size; sim_part->y -= grid_size; break;
                 default: break;
             }
+            memcpy(&send_edge_parts[dir][send_edge_parts_num[dir]], sim_part, sizeof(particle));
             send_edge_parts_num[dir]++;
+            free(sim_part);
         }
     }
 
@@ -87,12 +92,12 @@ ppm_image *p_create_ppm_image(region *reg, int proc_id_x, int proc_id_y, int reg
         if (ok_to_send == 1 && ok_to_recv == 1) {
             MPI_Sendrecv(&send_edge_parts_num[dir], 1, MPI_INT, send_proc_id, 0,
                          &recv_edge_parts_num[dir], 1, MPI_INT, recv_proc_id, 0, MPI_2D_COMM, MPI_STATUS_IGNORE);
-            recv_edge_parts[dir] = (particle *) malloc(sizeof(particle) * recv_edge_parts_num[dir]);
+            recv_edge_parts[dir] = (simplified_part *) malloc(sizeof(simplified_part) * recv_edge_parts_num[dir]);
             MPI_Sendrecv(send_edge_parts[dir], send_edge_parts_num[dir], MPI_PARTICLE, send_proc_id, 1,
                          recv_edge_parts[dir], recv_edge_parts_num[dir], MPI_PARTICLE, recv_proc_id, 1, MPI_2D_COMM, MPI_STATUS_IGNORE);
         } else if (ok_to_send == 0 && ok_to_recv == 1) {
             MPI_Recv(&recv_edge_parts_num[dir], 1, MPI_INT, recv_proc_id, 0, MPI_2D_COMM, MPI_STATUS_IGNORE);
-            recv_edge_parts[dir] = (particle *) malloc(sizeof(particle) * recv_edge_parts_num[dir]);
+            recv_edge_parts[dir] = (simplified_part *) malloc(sizeof(simplified_part) * recv_edge_parts_num[dir]);
             MPI_Recv(recv_edge_parts[dir], recv_edge_parts_num[dir], MPI_PARTICLE, recv_proc_id, 1, MPI_2D_COMM, MPI_STATUS_IGNORE);
         } else if (ok_to_send == 1 && ok_to_recv == 0) {
             MPI_Send(&send_edge_parts_num[dir], 1, MPI_INT, send_proc_id, 0, MPI_2D_COMM);
@@ -102,16 +107,16 @@ ppm_image *p_create_ppm_image(region *reg, int proc_id_x, int proc_id_y, int reg
 
     for (int i = 0; i < 8; i++) {
         int add_part_num = recv_edge_parts_num[i];
-        particle *add_parts = recv_edge_parts[i];
+        simplified_part *add_parts = recv_edge_parts[i];
         for (int j = 0; j < add_part_num; j++) {
-            particle *part = &add_parts[j];
-            printf ("x:%d y:%d part_x:%lf part_y:%lf\n", proc_id_x, proc_id_y, part->x, part->y);
+            simplified_part *sim_part = &add_parts[j];
+            particle *part = from_simplified_part(*sim_part);
             paint_on_ppm(image, part, 0, 0);
+            free(part);
         }
         if (add_part_num != 0) {
             free(add_parts);
         }
     }
-
     return image;
 }

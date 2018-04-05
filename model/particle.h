@@ -17,6 +17,14 @@ typedef struct particle {
     int is_small;
 } particle;
 
+typedef struct simplified_part {
+    double x, y;
+    double mass;
+    double radius;
+}simplified_part;
+
+particle *from_simplified_part(simplified_part part);
+simplified_part *from_part(particle part);
 void load_particle(particle *mem, double mass, double radius, double x, double y, int is_small);
 
 #endif //GALAXY_SIMULATION_PARTICLE_H

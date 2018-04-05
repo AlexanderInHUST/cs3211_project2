@@ -12,7 +12,12 @@ ppm_image *s_create_ppm_image(region *reg, int regs_sqt_num) {
     memset(image->data, 0, sizeof(int *) * regs_sqt_num * regs_sqt_num * grid_size * grid_size * 3);
 
     for (int i = 0; i < regs_sqt_num * regs_sqt_num; i++) {
-        for (int j = 0; j < reg[i].particles_num; j++) {
+        for (int j = 0, part_count = 0; part_count < reg[i].particles_num; j++) {
+            if (reg[i].is_occupied[j] == 0) {
+                continue;
+            }
+            part_count++;
+
             particle *part = &reg[i].particle_array[j];
             paint_on_ppm(image, part, i / regs_sqt_num * grid_size, i % regs_sqt_num * grid_size);
         }
