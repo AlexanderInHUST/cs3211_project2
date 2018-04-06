@@ -10,14 +10,18 @@
 #include "parallel/p_main_loop.h"
 #include "sequential/s_initial_regions.h"
 #include "sequential/s_main_loop.h"
+#include "util/timer.h"
 
 int main(int argc, char * argv[]) {
+//    double start_time = get_wall_time();
 //    input_data * data = load_file("../input.in");
-//    region * reg = s_create_regions(data, 5);
-//    s_start_simulation(reg, data, 5);
+//    region * reg = s_create_regions(data, 2);
+//    s_start_simulation(reg, data, 2);
 //    free_input_data(&data);
-//    s_free_regions(&reg, 5);
+//    s_free_regions(&reg, 2);
+//    printf("time : %lf\n", get_wall_time() - start_time);
 
+    double start_time = get_wall_time();
     input_data * data = load_file("../input.in");
     MPI_Datatype MPI_SIM_PARTICLE, MPI_PARTICLE, MPI_VECTOR_PAIR;
     MPI_Comm MPI_2D_COMM;
@@ -29,6 +33,7 @@ int main(int argc, char * argv[]) {
     region * reg = p_create_regions(data, proc_id_x, proc_id_y);
     p_start_simulation(reg, data, proc_id_x, proc_id_y, proc_id, reg_sqrt_num, MPI_2D_COMM, MPI_PARTICLE, MPI_SIM_PARTICLE);
     p_mpi_finalize();
+    printf("time : %lf\n", get_wall_time() - start_time);
 
     return 0;
 }

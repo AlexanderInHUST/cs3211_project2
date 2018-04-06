@@ -12,8 +12,6 @@ void s_start_simulation(region *regions, input_data *input, int regs_sqt_num) {
     double total_energy = 0;
 
     for (int step = 0; step < total_shots; step++) {
-        printf("step %d start.\n", step);
-
         ppm_image *image = s_create_ppm_image(regions, regs_sqt_num);
         char file_name[50];
         sprintf(file_name, "test%d.ppm", step);

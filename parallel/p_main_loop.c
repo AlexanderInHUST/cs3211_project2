@@ -13,7 +13,7 @@ void p_start_simulation(region *region, input_data *input, int proc_id_x, int pr
     double total_energy = 0;
 
     for (int step = 0; step < total_shots; step++) {
-        printf("step %d start.\n", step);
+
         ppm_image *image = p_create_ppm_image(region, proc_id_x, proc_id_y, reg_sqrt_num, MPI_2D_COMM, MPI_SIM_PARTICLE);
         char file_name[50];
         sprintf(file_name, "test%d.ppm", step);
@@ -147,5 +147,6 @@ void p_start_simulation(region *region, input_data *input, int proc_id_x, int pr
                 free(recv_parts[i]);
             }
         }
+
     }
 }

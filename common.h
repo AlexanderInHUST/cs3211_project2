@@ -11,6 +11,7 @@
 #include <stdio.h>
 #include <math.h>
 #include <mpi.h>
+#include <sys/time.h>
 
 #define MAX(a, b) ((a) > (b) ? (a) : (b))
 #define MIN(a, b) ((a) < (b) ? (a) : (b))
