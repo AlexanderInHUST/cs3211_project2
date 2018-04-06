@@ -47,8 +47,9 @@ void p_start_simulation(region *region, input_data *input, int proc_id_x, int pr
             free (sim_part);
         }
         all_sim_num[proc_id] = particles_num;
+
+        MPI_Allgather(&particles_num, 1, MPI_INT, all_sim_num, 1, MPI_INT, MPI_2D_COMM);
         for (int bcast = 0; bcast < reg_sqrt_num * reg_sqrt_num; bcast++) {
-            MPI_Bcast(&all_sim_num[bcast], 1, MPI_INT, bcast, MPI_2D_COMM);
             if (bcast != proc_id) {
                 all_sim_parts[bcast] = (simplified_part *) malloc(sizeof(simplified_part) * all_sim_num[bcast]);
             }
