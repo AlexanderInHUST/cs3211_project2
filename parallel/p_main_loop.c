@@ -100,6 +100,8 @@ void p_start_simulation(region *region, input_data *input, int proc_id_x, int pr
         for (int i = 0; i < reg_sqrt_num * reg_sqrt_num; i++) {
             free (all_sim_parts[i]);
         }
+        MPI_Allreduce(MPI_IN_PLACE, &gravitational_energy, 1, MPI_DOUBLE, MPI_SUM, MPI_2D_COMM);
+        MPI_Allreduce(MPI_IN_PLACE, &kinetic_energy, 1, MPI_DOUBLE, MPI_SUM, MPI_2D_COMM);
 
         if (step == 0) {
             total_energy = gravitational_energy;
@@ -112,7 +114,7 @@ void p_start_simulation(region *region, input_data *input, int proc_id_x, int pr
             part_count++;
 
             particle *part = &region->particle_array[part_id];
-//            correct_velocity(part, gravitational_energy, kinetic_energy, total_energy);
+            correct_velocity(part, gravitational_energy, kinetic_energy, total_energy);
             part->x = part->next_x;
             part->y = part->next_y;
             part->velocity.to_east = part->next_velocity.to_east;
