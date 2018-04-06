@@ -5,7 +5,7 @@
 #include "p_main_loop.h"
 
 void p_start_simulation(region *region, input_data *input, int proc_id_x, int proc_id_y, int proc_id, int reg_sqrt_num,
-                        MPI_Comm MPI_2D_COMM, MPI_Datatype MPI_SIM_PARTICLE) {
+                        MPI_Comm MPI_2D_COMM, MPI_Datatype MPI_PARTICLE, MPI_Datatype MPI_SIM_PARTICLE) {
     double time_step = input->time_step;
     int total_shots = input->time_slots;
     int horizon = input->horizon;
@@ -14,7 +14,6 @@ void p_start_simulation(region *region, input_data *input, int proc_id_x, int pr
 
     for (int step = 0; step < total_shots; step++) {
         printf("step %d start.\n", step);
-
         ppm_image *image = p_create_ppm_image(region, proc_id_x, proc_id_y, reg_sqrt_num, MPI_2D_COMM, MPI_SIM_PARTICLE);
         char file_name[50];
         sprintf(file_name, "test%d.ppm", step);
@@ -37,13 +36,14 @@ void p_start_simulation(region *region, input_data *input, int proc_id_x, int pr
                 continue;
             }
             part_count++;
+
             particle *part = &region->particle_array[part_id];
             double global_part_x = proc_id_x * grid_size + part->x;
             double global_part_y = proc_id_y * grid_size + part->y;
             simplified_part *sim_part = from_part(*part);
             sim_part->x = global_part_x;
             sim_part->y = global_part_y;
-            memcpy(&all_sim_parts[proc_id][part_id], sim_part, sizeof(simplified_part));
+            memcpy(&all_sim_parts[proc_id][part_count - 1], sim_part, sizeof(simplified_part));
             free (sim_part);
         }
         all_sim_num[proc_id] = particles_num;
@@ -67,7 +67,6 @@ void p_start_simulation(region *region, input_data *input, int proc_id_x, int pr
             double global_part_y = proc_id_y * grid_size + part->y;
             for (int aim_reg_id = 0; aim_reg_id < reg_sqrt_num * reg_sqrt_num; aim_reg_id++) {
                 int aim_parts_num = all_sim_num[aim_reg_id];
-                simplified_part *aim_parts = all_sim_parts[aim_reg_id];
                 int aim_regs_xy[2], aim_reg_x, aim_reg_y;
                 MPI_Cart_coords(MPI_2D_COMM, aim_reg_id, 2, aim_regs_xy);
                 aim_reg_x = aim_regs_xy[0];
@@ -98,6 +97,9 @@ void p_start_simulation(region *region, input_data *input, int proc_id_x, int pr
             part->next_x += replacement->to_north;
             part->next_y += replacement->to_east;
         }
+        for (int i = 0; i < reg_sqrt_num * reg_sqrt_num; i++) {
+            free (all_sim_parts[i]);
+        }
 
         if (step == 0) {
             total_energy = gravitational_energy;
@@ -110,21 +112,40 @@ void p_start_simulation(region *region, input_data *input, int proc_id_x, int pr
             part_count++;
 
             particle *part = &region->particle_array[part_id];
-            correct_velocity(part, gravitational_energy, kinetic_energy, total_energy);
+//            correct_velocity(part, gravitational_energy, kinetic_energy, total_energy);
             part->x = part->next_x;
             part->y = part->next_y;
             part->velocity.to_east = part->next_velocity.to_east;
             part->velocity.to_north = part->next_velocity.to_north;
         }
 
+        particle *sent_parts[8], *recv_parts[8];
+        int sent_parts_num[8] = {0}, recv_parts_num[8] = {0};
+        for (int i = 0; i < 8; i++) {
+            sent_parts[i] = (particle *) malloc(sizeof(particle) * particles_num);
+        }
 
+        for (int part_id = 0, part_count = 0; part_count < particles_num; part_id++) {
+            if (region->is_occupied[part_id] == 0) {
+                continue;
+            }
+            part_count++;
 
-//        for (int i = 0; i < reg_sqrt_num * reg_sqrt_num; i++) {
-//            for (int j = 0; j < all_sim_num[i]; j++) {
-//                printf("id:%d %d:%lf %lf\n", proc_id, i, all_sim_parts[i][j].x, all_sim_parts[i][j].y);
-//            }
-//        }
+            particle *part = &region->particle_array[part_id];
+            int is_load = p_load_sent_parts(sent_parts, sent_parts_num, part, proc_id_x, proc_id_y, reg_sqrt_num, grid_size);
+            if (is_load == 1) {
+                region->is_occupied[part_id] = 0;
+                region->particles_num--;
+            }
+        }
+        p_swap_all_parts(sent_parts, sent_parts_num, recv_parts, recv_parts_num, proc_id_x, proc_id_y, reg_sqrt_num, MPI_2D_COMM, MPI_PARTICLE);
+        p_save_recv_parts(region, recv_parts, recv_parts_num);
+
+        for (int i = 0; i < 8; i++) {
+            free (sent_parts[i]);
+            if (recv_parts_num[i] != 0) {
+                free(recv_parts[i]);
+            }
+        }
     }
-
-
 }

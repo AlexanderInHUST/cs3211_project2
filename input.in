@@ -1,4 +1,4 @@
-TimeSlots: 10
+TimeSlots: 100
 TimeStep: 0.1
 Horizon: 4
 GridSize: 100
