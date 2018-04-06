@@ -5,15 +5,17 @@
 #include "p_main_loop.h"
 
 void p_start_simulation(region *region, input_data *input, int proc_id_x, int proc_id_y, int proc_id, int reg_sqrt_num,
-                        MPI_Comm MPI_2D_COMM, MPI_Datatype MPI_PARTICLE) {
+                        MPI_Comm MPI_2D_COMM, MPI_Datatype MPI_SIM_PARTICLE) {
     double time_step = input->time_step;
     int total_shots = input->time_slots;
     int horizon = input->horizon;
     int grid_size = input->grid_size;
     double total_energy = 0;
 
-    for (int step = 0; step < time_step; step++) {
-        ppm_image *image = p_create_ppm_image(region, proc_id_x, proc_id_y, reg_sqrt_num, MPI_2D_COMM, MPI_PARTICLE);
+    for (int step = 0; step < total_shots; step++) {
+        printf("step %d start.\n", step);
+
+        ppm_image *image = p_create_ppm_image(region, proc_id_x, proc_id_y, reg_sqrt_num, MPI_2D_COMM, MPI_SIM_PARTICLE);
         char file_name[50];
         sprintf(file_name, "test%d.ppm", step);
         p_store_file(image, file_name, proc_id, proc_id_x, proc_id_y, reg_sqrt_num);
@@ -50,7 +52,7 @@ void p_start_simulation(region *region, input_data *input, int proc_id_x, int pr
             if (bcast != proc_id) {
                 all_sim_parts[bcast] = (simplified_part *) malloc(sizeof(simplified_part) * all_sim_num[bcast]);
             }
-            MPI_Bcast(all_sim_parts[bcast], all_sim_num[bcast], MPI_PARTICLE, bcast, MPI_2D_COMM);
+            MPI_Bcast(all_sim_parts[bcast], all_sim_num[bcast], MPI_SIM_PARTICLE, bcast, MPI_2D_COMM);
         }
 
         for (int part_id = 0, part_count = 0; part_count < particles_num; part_id++) {
@@ -60,18 +62,68 @@ void p_start_simulation(region *region, input_data *input, int proc_id_x, int pr
             part_count++;
 
             particle *part = &region->particle_array[part_id];
+            vector_pair *next_velocity = &part->next_velocity;
             double global_part_x = proc_id_x * grid_size + part->x;
             double global_part_y = proc_id_y * grid_size + part->y;
+            for (int aim_reg_id = 0; aim_reg_id < reg_sqrt_num * reg_sqrt_num; aim_reg_id++) {
+                int aim_parts_num = all_sim_num[aim_reg_id];
+                simplified_part *aim_parts = all_sim_parts[aim_reg_id];
+                int aim_regs_xy[2], aim_reg_x, aim_reg_y;
+                MPI_Cart_coords(MPI_2D_COMM, aim_reg_id, 2, aim_regs_xy);
+                aim_reg_x = aim_regs_xy[0];
+                aim_reg_y = aim_regs_xy[1];
 
-        }
+                for (int aim_part_id = 0; aim_part_id < aim_parts_num; aim_part_id++) {
+                    simplified_part *aim_part = &all_sim_parts[aim_reg_id][aim_part_id];
+                    particle *aim_whole_part = from_simplified_part(*aim_part);
+                    gravitational_energy += compute_gravitational_energy(part, aim_whole_part, global_part_x
+                        , global_part_y, aim_part->x, aim_part->y);
 
+                    if (aim_reg_x >= reg_start_x && aim_reg_x <= reg_end_x &&
+                            aim_reg_y >= reg_start_y && aim_reg_y <= reg_end_y) {
+                        vector_pair *force = compute_gravitational_force(part, aim_whole_part, global_part_x
+                                , global_part_y, aim_part->x, aim_part->y);
+                        vector_pair *velocity_change = compute_velocity(part, force, time_step);
+                        vector_pair_add(next_velocity, velocity_change);
 
-
-        for (int i = 0; i < reg_sqrt_num * reg_sqrt_num; i++) {
-            for (int j = 0; j < all_sim_num[i]; j++) {
-                printf("id:%d %d:%lf %lf\n", proc_id, i, all_sim_parts[i][j].x, all_sim_parts[i][j].y);
+                        free(force);
+                        free(velocity_change);
+                    }
+                    free(aim_whole_part);
+                }
             }
+
+            kinetic_energy += compute_kinetic_energy(part);
+            vector_pair *replacement = compute_displacement(part, time_step);
+            part->next_x += replacement->to_north;
+            part->next_y += replacement->to_east;
         }
+
+        if (step == 0) {
+            total_energy = gravitational_energy;
+        }
+
+        for (int part_id = 0, part_count = 0; part_count < particles_num; part_id++) {
+            if (region->is_occupied[part_id] == 0) {
+                continue;
+            }
+            part_count++;
+
+            particle *part = &region->particle_array[part_id];
+            correct_velocity(part, gravitational_energy, kinetic_energy, total_energy);
+            part->x = part->next_x;
+            part->y = part->next_y;
+            part->velocity.to_east = part->next_velocity.to_east;
+            part->velocity.to_north = part->next_velocity.to_north;
+        }
+
+
+
+//        for (int i = 0; i < reg_sqrt_num * reg_sqrt_num; i++) {
+//            for (int j = 0; j < all_sim_num[i]; j++) {
+//                printf("id:%d %d:%lf %lf\n", proc_id, i, all_sim_parts[i][j].x, all_sim_parts[i][j].y);
+//            }
+//        }
     }
 
 

@@ -64,28 +64,6 @@ void s_start_simulation(region *regions, input_data *input, int regs_sqt_num) {
                     }
                 }
 
-//                for (int reg_idx_x = reg_start_x; reg_idx_x <= reg_end_x; reg_idx_x++) {
-//                    for (int reg_idx_y = reg_start_y; reg_idx_y <= reg_end_y; reg_idx_y++) {
-//                        region *aim_region = &regions[reg_idx_x * regs_sqt_num + reg_idx_y];
-//                        for (int aim_part_id = 0, aim_part_count = 0; aim_part_count < aim_region->particles_num; aim_part_id++) {
-//                            if (aim_region->is_occupied[aim_part_id] == 0) {
-//                                continue;
-//                            }
-//                            aim_part_count++;
-//                            particle *aim_part = &aim_region->particle_array[aim_part_id];
-//                            double global_aim_x = reg_idx_x * grid_size + aim_part->x;
-//                            double global_aim_y = reg_idx_y * grid_size + aim_part->y;
-//                            vector_pair *force = compute_gravitational_force(part, aim_part, global_part_x
-//                                    , global_part_y, global_aim_x, global_aim_y);
-//                            vector_pair *velocity_change = compute_velocity(part, force, time_step);
-//                            vector_pair_add(next_velocity, velocity_change);
-//
-//                            free(force);
-//                            free(velocity_change);
-//                        }
-//                    }
-//                }
-
                 kinetic_energy += compute_kinetic_energy(part);
                 vector_pair *replacement = compute_displacement(part, time_step);
                 part->next_x += replacement->to_north;

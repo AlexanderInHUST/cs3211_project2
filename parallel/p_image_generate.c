@@ -4,7 +4,7 @@
 
 #include "p_image_generate.h"
 
-ppm_image *p_create_ppm_image(region *reg, int proc_id_x, int proc_id_y, int region_sqt_num, MPI_Comm MPI_2D_COMM, MPI_Datatype MPI_PARTICLE) {
+ppm_image *p_create_ppm_image(region *reg, int proc_id_x, int proc_id_y, int region_sqt_num, MPI_Comm MPI_2D_COMM, MPI_Datatype MPI_SIM_PARTICLE) {
     int grid_size = (int) reg->grid_size;
     ppm_image *image = (ppm_image *) malloc(sizeof(ppm_image));
     image->width = image->height = grid_size;
@@ -93,15 +93,15 @@ ppm_image *p_create_ppm_image(region *reg, int proc_id_x, int proc_id_y, int reg
             MPI_Sendrecv(&send_edge_parts_num[dir], 1, MPI_INT, send_proc_id, 0,
                          &recv_edge_parts_num[dir], 1, MPI_INT, recv_proc_id, 0, MPI_2D_COMM, MPI_STATUS_IGNORE);
             recv_edge_parts[dir] = (simplified_part *) malloc(sizeof(simplified_part) * recv_edge_parts_num[dir]);
-            MPI_Sendrecv(send_edge_parts[dir], send_edge_parts_num[dir], MPI_PARTICLE, send_proc_id, 1,
-                         recv_edge_parts[dir], recv_edge_parts_num[dir], MPI_PARTICLE, recv_proc_id, 1, MPI_2D_COMM, MPI_STATUS_IGNORE);
+            MPI_Sendrecv(send_edge_parts[dir], send_edge_parts_num[dir], MPI_SIM_PARTICLE, send_proc_id, 1,
+                         recv_edge_parts[dir], recv_edge_parts_num[dir], MPI_SIM_PARTICLE, recv_proc_id, 1, MPI_2D_COMM, MPI_STATUS_IGNORE);
         } else if (ok_to_send == 0 && ok_to_recv == 1) {
             MPI_Recv(&recv_edge_parts_num[dir], 1, MPI_INT, recv_proc_id, 0, MPI_2D_COMM, MPI_STATUS_IGNORE);
             recv_edge_parts[dir] = (simplified_part *) malloc(sizeof(simplified_part) * recv_edge_parts_num[dir]);
-            MPI_Recv(recv_edge_parts[dir], recv_edge_parts_num[dir], MPI_PARTICLE, recv_proc_id, 1, MPI_2D_COMM, MPI_STATUS_IGNORE);
+            MPI_Recv(recv_edge_parts[dir], recv_edge_parts_num[dir], MPI_SIM_PARTICLE, recv_proc_id, 1, MPI_2D_COMM, MPI_STATUS_IGNORE);
         } else if (ok_to_send == 1 && ok_to_recv == 0) {
             MPI_Send(&send_edge_parts_num[dir], 1, MPI_INT, send_proc_id, 0, MPI_2D_COMM);
-            MPI_Send(send_edge_parts[dir], send_edge_parts_num[dir], MPI_PARTICLE, send_proc_id, 1, MPI_2D_COMM);
+            MPI_Send(send_edge_parts[dir], send_edge_parts_num[dir], MPI_SIM_PARTICLE, send_proc_id, 1, MPI_2D_COMM);
         }
     }
 

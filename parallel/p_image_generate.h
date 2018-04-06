@@ -24,6 +24,6 @@ const static int magic_direction_map[11][3] = {
         {3, -1, -1}, {0, 3, 5}, {1, 3, 7}
 };
 
-ppm_image * p_create_ppm_image(region * reg, int proc_id_x, int proc_id_y, int region_sqt_num, MPI_Comm MPI_2D_COMM, MPI_Datatype MPI_PARTICLE);
+ppm_image * p_create_ppm_image(region * reg, int proc_id_x, int proc_id_y, int region_sqt_num, MPI_Comm MPI_2D_COMM, MPI_Datatype MPI_SIM_PARTICLE);
 
 #endif //GALAXY_SIMULATION_P_IMAGE_GENERATE_H
