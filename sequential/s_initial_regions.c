@@ -57,3 +57,9 @@ void s_free_regions(region **aim, int num_sqt) {
     }
     free(*aim);
 }
+
+void free_region(region **aim) {
+    free((*aim)->particle_array);
+    free((*aim)->is_occupied);
+    free(*aim);
+}

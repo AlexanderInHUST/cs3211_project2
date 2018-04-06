@@ -8,7 +8,6 @@
 #include "../model/input_data.h"
 #include "../model/region.h"
 
-void free_region(region **aim);
 region *p_create_regions(input_data *input, int proc_id_x, int proc_id_y);
 
 #endif //GALAXY_SIMULATION_P_INITIAL_REGIONS_H

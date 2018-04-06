@@ -7,8 +7,8 @@
 
 #include "../model/input_data.h"
 #include "../model/region.h"
-#include "../parallel/p_initial_regions.h"
 
+void free_region(region **aim);
 void s_free_regions(region **aim, int num_sqt);
 region *s_create_regions(input_data *input, int region_sqt_num);
 

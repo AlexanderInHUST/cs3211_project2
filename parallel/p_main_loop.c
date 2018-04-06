@@ -5,7 +5,7 @@
 #include "p_main_loop.h"
 
 void p_start_simulation(region *region, input_data *input, int proc_id_x, int proc_id_y, int proc_id, int reg_sqrt_num,
-                        MPI_Comm MPI_2D_COMM, MPI_Datatype MPI_PARTICLE, MPI_Datatype MPI_SIM_PARTICLE) {
+                        MPI_Comm MPI_2D_COMM, MPI_Datatype MPI_PARTICLE, MPI_Datatype MPI_SIM_PARTICLE, char *file_name_prefix) {
     double time_step = input->time_step;
     int total_shots = input->time_slots;
     int horizon = input->horizon;
@@ -16,7 +16,7 @@ void p_start_simulation(region *region, input_data *input, int proc_id_x, int pr
 
         ppm_image *image = p_create_ppm_image(region, proc_id_x, proc_id_y, reg_sqrt_num, MPI_2D_COMM, MPI_SIM_PARTICLE);
         char file_name[50];
-        sprintf(file_name, "test%d.ppm", step);
+        sprintf(file_name, "%s%d.ppm", file_name_prefix, step);
         p_store_file(image, file_name, proc_id, proc_id_x, proc_id_y, reg_sqrt_num);
         free_output_data(&image);
 

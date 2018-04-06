@@ -35,9 +35,3 @@ region *p_create_regions(input_data *input, int proc_id_x, int proc_id_y) {
     }
     return new_region;
 }
-
-void free_region(region **aim) {
-    free((*aim)->particle_array);
-    free((*aim)->is_occupied);
-    free(*aim);
-}

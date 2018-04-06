@@ -4,7 +4,7 @@
 
 #include "s_main_loop.h"
 
-void s_start_simulation(region *regions, input_data *input, int regs_sqt_num) {
+void s_start_simulation(region *regions, input_data *input, int regs_sqt_num, char *file_name_prefix) {
     double time_step = input->time_step;
     int total_shots = input->time_slots;
     int horizon = input->horizon;
@@ -14,7 +14,7 @@ void s_start_simulation(region *regions, input_data *input, int regs_sqt_num) {
     for (int step = 0; step < total_shots; step++) {
         ppm_image *image = s_create_ppm_image(regions, regs_sqt_num);
         char file_name[50];
-        sprintf(file_name, "test%d.ppm", step);
+        sprintf(file_name, "%s%d.ppm", file_name_prefix, step);
         store_file(image, file_name);
         free_output_data(&image);
 

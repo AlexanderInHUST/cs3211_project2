@@ -12,6 +12,6 @@
 #include "s_image_generate.h"
 #include "s_image_store.h"
 
-void s_start_simulation(region *regions, input_data *input, int num_of_regions);
+void s_start_simulation(region *regions, input_data *input, int num_of_regions, char *file_name_prefix);
 
 #endif //GALAXY_SIMULATION_S_MAIN_LOOP_H
