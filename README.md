@@ -21,7 +21,7 @@ make par // for parallel version
 or
 
 ```
-mpirun -np [size_n] ./simulation.par [input_file_name] [prefix_of_output_files]
+mpirun -np [size_n * size_n] ./simulation.par [input_file_name] [prefix_of_output_files]
 ```
 
 ## Example
@@ -30,4 +30,10 @@ mpirun -np [size_n] ./simulation.par [input_file_name] [prefix_of_output_files]
 ./simulation.seq input.in ./test 2
 ```
 
-Then the program gets input data from input.in and generates output files named test1.ppm, test2.ppm, test3.ppm......... until end.
+or 
+
+```
+mpirun -np 9 ./simulation.par input.in ./test
+```
+
+Then the program gets input data from input.in and generates output files at current folder named test1.ppm, test2.ppm, test3.ppm......... until end.
