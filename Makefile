@@ -1,6 +1,6 @@
 CC_S		=	gcc
 CC_P		=	mpicc
-CC_FLAG		=	-O3 -Wall
+CC_FLAG		=	-O0
 COM_SRC 	=	model/particle.c model/region.c model/vector_pair.c\
 				util/file_helper.c util/image_painter.c util/physics.c util/random.c util/timer.c\
 				main.c

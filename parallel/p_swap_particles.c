@@ -5,7 +5,7 @@
 #include "p_swap_particles.h"
 
 int p_load_sent_parts(particle **sent_parts, int *sent_parts_num, particle *part, int proc_id_x, int proc_id_y,
-                       int region_sqt_num, int grid_size) {
+                       int region_sqt_num, double grid_size) {
     int at_edges = NO;
     if (proc_id_x != 0 && part->x < 0)                          at_edges |= UP;
     if (proc_id_x != region_sqt_num - 1 && part->x > grid_size) at_edges |= DOWN;
@@ -20,18 +20,20 @@ int p_load_sent_parts(particle **sent_parts, int *sent_parts_num, particle *part
 
         particle *modified_part = &aim_parts_array[current_num];
         switch (dir) {
-            case 0: modified_part->x += grid_size; break;
-            case 1: modified_part->x -= grid_size; break;
-            case 2: modified_part->y += grid_size; break;
-            case 3: modified_part->y -= grid_size; break;
-            case 4: modified_part->x += grid_size; modified_part->y += grid_size; break;
-            case 5: modified_part->x += grid_size; modified_part->y -= grid_size; break;
-            case 6: modified_part->x -= grid_size; modified_part->y += grid_size; break;
-            case 7: modified_part->x -= grid_size; modified_part->y -= grid_size; break;
+            case 0: modified_part->x += grid_size; modified_part->next_x += grid_size; break;
+            case 1: modified_part->x -= grid_size; modified_part->next_x -= grid_size; break;
+            case 2: modified_part->y += grid_size; modified_part->next_y += grid_size; break;
+            case 3: modified_part->y -= grid_size; modified_part->next_y -= grid_size; break;
+            case 4: modified_part->x += grid_size; modified_part->y += grid_size;
+                    modified_part->next_x += grid_size; modified_part->next_y += grid_size; break;
+            case 5: modified_part->x += grid_size; modified_part->y -= grid_size;
+                    modified_part->next_x += grid_size; modified_part->next_y -= grid_size; break;
+            case 6: modified_part->x -= grid_size; modified_part->y += grid_size;
+                    modified_part->next_x -= grid_size; modified_part->next_y += grid_size; break;
+            case 7: modified_part->x -= grid_size; modified_part->y -= grid_size;
+                    modified_part->next_x -= grid_size; modified_part->next_y -= grid_size; break;
             default: break;
         }
-        modified_part->next_x = modified_part->x;
-        modified_part->next_y = modified_part->y;
         sent_parts_num[dir]++;
         return 1;
     }

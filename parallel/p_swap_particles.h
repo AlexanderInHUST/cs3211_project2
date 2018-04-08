@@ -23,7 +23,7 @@ const static int magic_dir_map[11] = {
 };
 
 int p_load_sent_parts(particle **sent_parts, int *sent_parts_num, particle *part, int proc_id_x, int proc_id_y,
-                       int region_sqt_num, int grid_size);
+                       int region_sqt_num, double grid_size);
 void p_swap_all_parts(particle **sent_parts, const int *sent_parts_num, particle **recv_parts, int *recv_parts_num,
                       int proc_id_x, int proc_id_y, int region_sqt_num, MPI_Comm MPI_2D_COMM, MPI_Datatype MPI_PARTICLE);
 void p_save_recv_parts(region *region, particle **recv_parts, const int *recv_parts_num);

@@ -9,8 +9,9 @@ void p_start_simulation(region *region, input_data *input, int proc_id_x, int pr
     double time_step = input->time_step;
     int total_shots = input->time_slots;
     int horizon = input->horizon;
-    int grid_size = input->grid_size;
+    double grid_size = input->grid_size;
     double total_energy = 0;
+    double last_fast_velocity = 0;
 
     for (int step = 0; step < total_shots; step++) {
 
@@ -26,6 +27,7 @@ void p_start_simulation(region *region, input_data *input, int proc_id_x, int pr
         int reg_end_x = MIN(proc_id_x + horizon, reg_sqrt_num - 1);
         int reg_end_y = MIN(proc_id_y + horizon, reg_sqrt_num - 1);
         int particles_num = region->particles_num;
+
         int all_sim_num[reg_sqrt_num * reg_sqrt_num];
         memset(all_sim_num, 0, sizeof(int) * reg_sqrt_num * reg_sqrt_num);
         simplified_part *all_sim_parts[reg_sqrt_num * reg_sqrt_num];
@@ -46,9 +48,9 @@ void p_start_simulation(region *region, input_data *input, int proc_id_x, int pr
             memcpy(&all_sim_parts[proc_id][part_count - 1], sim_part, sizeof(simplified_part));
             free (sim_part);
         }
-        all_sim_num[proc_id] = particles_num;
 
         MPI_Allgather(&particles_num, 1, MPI_INT, all_sim_num, 1, MPI_INT, MPI_2D_COMM);
+        all_sim_num[proc_id] = particles_num;
         for (int bcast = 0; bcast < reg_sqrt_num * reg_sqrt_num; bcast++) {
             if (bcast != proc_id) {
                 all_sim_parts[bcast] = (simplified_part *) malloc(sizeof(simplified_part) * all_sim_num[bcast]);
@@ -101,11 +103,18 @@ void p_start_simulation(region *region, input_data *input, int proc_id_x, int pr
         for (int i = 0; i < reg_sqrt_num * reg_sqrt_num; i++) {
             free (all_sim_parts[i]);
         }
+
         MPI_Allreduce(MPI_IN_PLACE, &gravitational_energy, 1, MPI_DOUBLE, MPI_SUM, MPI_2D_COMM);
         MPI_Allreduce(MPI_IN_PLACE, &kinetic_energy, 1, MPI_DOUBLE, MPI_SUM, MPI_2D_COMM);
 
         if (step == 0) {
             total_energy = gravitational_energy;
+        }
+
+        if (step % 20 == 0) {
+            if (proc_id == 0) {
+                printf("%d : %lf %lf\n", step, gravitational_energy, kinetic_energy);
+            }
         }
 
         for (int part_id = 0, part_count = 0; part_count < particles_num; part_id++) {
@@ -115,7 +124,7 @@ void p_start_simulation(region *region, input_data *input, int proc_id_x, int pr
             part_count++;
 
             particle *part = &region->particle_array[part_id];
-            correct_velocity(part, gravitational_energy, kinetic_energy, total_energy);
+            correct_velocity(part, gravitational_energy, kinetic_energy, total_energy, last_fast_velocity);
             part->x = part->next_x;
             part->y = part->next_y;
             part->velocity.to_east = part->next_velocity.to_east;
@@ -135,6 +144,9 @@ void p_start_simulation(region *region, input_data *input, int proc_id_x, int pr
             part_count++;
 
             particle *part = &region->particle_array[part_id];
+            double part_v = sqrt(part->velocity.to_north * part->velocity.to_north
+                                 + part->velocity.to_east * part->velocity.to_east);
+            last_fast_velocity = MAX(part_v, last_fast_velocity);
             int is_load = p_load_sent_parts(sent_parts, sent_parts_num, part, proc_id_x, proc_id_y, reg_sqrt_num, grid_size);
             if (is_load == 1) {
                 region->is_occupied[part_id] = 0;
@@ -150,6 +162,5 @@ void p_start_simulation(region *region, input_data *input, int proc_id_x, int pr
                 free(recv_parts[i]);
             }
         }
-
     }
 }

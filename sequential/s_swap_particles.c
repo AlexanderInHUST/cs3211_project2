@@ -15,7 +15,7 @@ void s_send_particle(region *des, region *src, int part_id) {
     memcpy(&des->particle_array[recv_pos], send_part, sizeof(particle));
 }
 
-int s_test_part_pos(particle *part, int grid_size) {
+int s_test_part_pos(particle *part, double grid_size) {
     int next_region_direction = NO;
     if (part->x < 0) {
         next_region_direction |= UP;
@@ -30,7 +30,7 @@ int s_test_part_pos(particle *part, int grid_size) {
     return next_region_direction;
 }
 
-void s_send_part_to_region(region *regions, int region_idx, int part_id, int region_sqt_num, int grid_size) {
+void s_send_part_to_region(region *regions, int region_idx, int part_id, int region_sqt_num, double grid_size) {
     int region_x = region_idx / region_sqt_num;
     int region_y = region_idx % region_sqt_num;
     int move_x = 0;
@@ -58,7 +58,9 @@ void s_send_part_to_region(region *regions, int region_idx, int part_id, int reg
     }
     int des_region_id = region_idx + move_y + region_sqt_num * move_x;
     particle *part = &regions[region_idx].particle_array[part_id];
-    part->next_x = part->x = part->x - move_x * grid_size;
-    part->next_y = part->y = part->y - move_y * grid_size;
+    part->x = part->x - move_x * grid_size;
+    part->next_x = part->next_x - move_x * grid_size;
+    part->y = part->y - move_y * grid_size;
+    part->next_y = part->next_y - move_y * grid_size;
     s_send_particle(&regions[des_region_id], &regions[region_idx], part_id);
 }

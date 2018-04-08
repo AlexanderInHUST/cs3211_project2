@@ -16,11 +16,12 @@ int main(int argc, char * argv[]) {
 
 #ifdef SEQ
     double start_time = get_wall_time();
+    int reg_sqrt_num = atoi(argv[3]);
     input_data * data = load_file(argv[1]);
-    region * reg = s_create_regions(data, 2);
-    s_start_simulation(reg, data, 2, argv[2]);
+    region * reg = s_create_regions(data, reg_sqrt_num);
+    s_start_simulation(reg, data, reg_sqrt_num, argv[2]);
     free_input_data(&data);
-    s_free_regions(&reg, 2);
+    s_free_regions(&reg, reg_sqrt_num);
     printf("time : %lf\n", get_wall_time() - start_time);
 #else
     double start_time = get_wall_time();

@@ -9,7 +9,7 @@ typedef struct input_data {
     int time_slots;
     double time_step;
     int horizon;
-    int grid_size;
+    double grid_size;
     int num_of_smalls;
     double mass_of_smalls;
     double radius_of_smalls;

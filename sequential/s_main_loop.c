@@ -8,8 +8,9 @@ void s_start_simulation(region *regions, input_data *input, int regs_sqt_num, ch
     double time_step = input->time_step;
     int total_shots = input->time_slots;
     int horizon = input->horizon;
-    int grid_size = input->grid_size;
+    double grid_size = input->grid_size;
     double total_energy = 0;
+    double last_fast_velocity = 0;
 
     for (int step = 0; step < total_shots; step++) {
         ppm_image *image = s_create_ppm_image(regions, regs_sqt_num);
@@ -74,6 +75,10 @@ void s_start_simulation(region *regions, input_data *input, int regs_sqt_num, ch
             total_energy = gravitational_energy;
         }
 
+        if (step % 20 == 0) {
+            printf("%d : %lf %lf\n", step, gravitational_energy, kinetic_energy);
+        }
+
         for (int reg_idx = 0; reg_idx < regs_sqt_num * regs_sqt_num; reg_idx++) {
             region *current_region = &regions[reg_idx];
             for (int part_id = 0, part_count = 0; part_count < current_region->particles_num; part_id++) {
@@ -83,7 +88,7 @@ void s_start_simulation(region *regions, input_data *input, int regs_sqt_num, ch
                 part_count++;
 
                 particle *part = &current_region->particle_array[part_id];
-                correct_velocity(part, gravitational_energy, kinetic_energy, total_energy);
+                correct_velocity(part, gravitational_energy, kinetic_energy, total_energy, last_fast_velocity);
                 part->x = part->next_x;
                 part->y = part->next_y;
                 part->velocity.to_east = part->next_velocity.to_east;
@@ -100,6 +105,11 @@ void s_start_simulation(region *regions, input_data *input, int regs_sqt_num, ch
                     continue;
                 }
                 part_count++;
+
+                particle *part = &current_region->particle_array[part_id];
+                double part_v = sqrt(part->velocity.to_north * part->velocity.to_north
+                                     + part->velocity.to_east * part->velocity.to_east);
+                last_fast_velocity = MAX(part_v, last_fast_velocity);
                 s_send_part_to_region(regions, reg_idx, part_id, regs_sqt_num, grid_size);
             }
             shrink_region(current_region);

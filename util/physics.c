@@ -50,18 +50,20 @@ double compute_kinetic_energy(particle *a) {
                     a->next_velocity.to_east * a->next_velocity.to_east);
 }
 
-void correct_velocity(particle *a, double g_energy, double k_energy, double total_energy) {
-    double original_k_energy = total_energy - g_energy;
+void correct_velocity(particle *a, double g_energy, double k_energy, double total_energy, double last_fast) {
+    double energy_now = total_energy - g_energy;
+    double velocity = sqrt(a->next_velocity.to_north * a->next_velocity.to_north
+                           + a->next_velocity.to_east * a->next_velocity.to_east);
     double scale;
-    if (fabs(k_energy) < 0.00001) {
-        scale = 1;
-    } else {
-        if (original_k_energy < 0) {
+    if (energy_now < 0) {
+        if (velocity > last_fast * 0.6) {
             scale = 0.1;
         } else {
-            scale = sqrt(original_k_energy / k_energy);
+            scale = 0.8;
         }
+    } else {
+        scale = sqrt(energy_now / k_energy);
     }
-    a->next_velocity.to_east = a->next_velocity.to_east * scale;
     a->next_velocity.to_north = a->next_velocity.to_north * scale;
+    a->next_velocity.to_east = a->next_velocity.to_east * scale;
 }

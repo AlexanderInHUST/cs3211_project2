@@ -14,7 +14,7 @@ input_data * load_file (char * file_name) {
     fscanf(input_file, "TimeSlots: %d\n", &data->time_slots);
     fscanf(input_file, "TimeStep: %lf\n", &data->time_step);
     fscanf(input_file, "Horizon: %d\n", &data->horizon);
-    fscanf(input_file, "GridSize: %d\n", &data->grid_size);
+    fscanf(input_file, "GridSize: %lf\n", &data->grid_size);
     fscanf(input_file, "NumberOfSmallParticles: %d\n", &data->num_of_smalls);
     fscanf(input_file, "SmallParticleMass: %lf\n", &data->mass_of_smalls);
     fscanf(input_file, "SmallParticleRadius: %lf\n", &data->radius_of_smalls);
