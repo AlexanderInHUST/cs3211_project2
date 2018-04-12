@@ -96,7 +96,7 @@ void s_start_simulation(region *regions, input_data *input, int regs_sqt_num, ch
             }
         }
 
-
+        last_fast_velocity = 0;
         for (int reg_idx = 0; reg_idx < regs_sqt_num * regs_sqt_num; reg_idx++) {
             region *current_region = &regions[reg_idx];
             int original_num = current_region->particles_num;

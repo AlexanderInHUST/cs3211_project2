@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="galaxy_simulation"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="/Users/tangyifeng/ClionProjects/galaxy_simulation/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/Users/tangyifeng/ClionProjects/galaxy_simulation/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/tangyifeng/ClionProjects/galaxy_simulation/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/Users/tangyifeng/ClionProjects/galaxy_simulation/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/tangyifeng/ClionProjects/galaxy_simulation/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="/Users/tangyifeng/ClionProjects/galaxy_simulation/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/Users/tangyifeng/ClionProjects/galaxy_simulation/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/tangyifeng/ClionProjects/galaxy_simulation/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/Users/tangyifeng/ClionProjects/galaxy_simulation/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/tangyifeng/ClionProjects/galaxy_simulation/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="/Users/tangyifeng/ClionProjects/galaxy_simulation/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/Users/tangyifeng/ClionProjects/galaxy_simulation/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/tangyifeng/ClionProjects/galaxy_simulation/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/Users/tangyifeng/ClionProjects/galaxy_simulation/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/tangyifeng/ClionProjects/galaxy_simulation/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="galaxy_simulation">
+				<Option output="/Users/tangyifeng/ClionProjects/galaxy_simulation/cmake-build-debug/galaxy_simulation" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/tangyifeng/ClionProjects/galaxy_simulation/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/usr/local/Cellar/mpich/3.2_2/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/9.0.0/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include"/>
+					<Add directory="/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/Users/tangyifeng/ClionProjects/galaxy_simulation/cmake-build-debug/Makefile&quot;  VERBOSE=1 galaxy_simulation"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/tangyifeng/ClionProjects/galaxy_simulation/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/Users/tangyifeng/ClionProjects/galaxy_simulation/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/tangyifeng/ClionProjects/galaxy_simulation/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="galaxy_simulation/fast">
+				<Option output="/Users/tangyifeng/ClionProjects/galaxy_simulation/cmake-build-debug/galaxy_simulation" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/tangyifeng/ClionProjects/galaxy_simulation/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/usr/local/Cellar/mpich/3.2_2/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/9.0.0/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include"/>
+					<Add directory="/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/Users/tangyifeng/ClionProjects/galaxy_simulation/cmake-build-debug/Makefile&quot;  VERBOSE=1 galaxy_simulation/fast"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/tangyifeng/ClionProjects/galaxy_simulation/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/Users/tangyifeng/ClionProjects/galaxy_simulation/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/tangyifeng/ClionProjects/galaxy_simulation/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="/Users/tangyifeng/ClionProjects/galaxy_simulation/common.h">
+			<Option target="galaxy_simulation"/>
+		</Unit>
+		<Unit filename="/Users/tangyifeng/ClionProjects/galaxy_simulation/main.c">
+			<Option target="galaxy_simulation"/>
+		</Unit>
+		<Unit filename="/Users/tangyifeng/ClionProjects/galaxy_simulation/model/input_data.h">
+			<Option target="galaxy_simulation"/>
+		</Unit>
+		<Unit filename="/Users/tangyifeng/ClionProjects/galaxy_simulation/model/particle.c">
+			<Option target="galaxy_simulation"/>
+		</Unit>
+		<Unit filename="/Users/tangyifeng/ClionProjects/galaxy_simulation/model/particle.h">
+			<Option target="galaxy_simulation"/>
+		</Unit>
+		<Unit filename="/Users/tangyifeng/ClionProjects/galaxy_simulation/model/ppm_image.h">
+			<Option target="galaxy_simulation"/>
+		</Unit>
+		<Unit filename="/Users/tangyifeng/ClionProjects/galaxy_simulation/model/region.c">
+			<Option target="galaxy_simulation"/>
+		</Unit>
+		<Unit filename="/Users/tangyifeng/ClionProjects/galaxy_simulation/model/region.h">
+			<Option target="galaxy_simulation"/>
+		</Unit>
+		<Unit filename="/Users/tangyifeng/ClionProjects/galaxy_simulation/model/vector_pair.c">
+			<Option target="galaxy_simulation"/>
+		</Unit>
+		<Unit filename="/Users/tangyifeng/ClionProjects/galaxy_simulation/model/vector_pair.h">
+			<Option target="galaxy_simulation"/>
+		</Unit>
+		<Unit filename="/Users/tangyifeng/ClionProjects/galaxy_simulation/parallel/p_image_generate.c">
+			<Option target="galaxy_simulation"/>
+		</Unit>
+		<Unit filename="/Users/tangyifeng/ClionProjects/galaxy_simulation/parallel/p_image_generate.h">
+			<Option target="galaxy_simulation"/>
+		</Unit>
+		<Unit filename="/Users/tangyifeng/ClionProjects/galaxy_simulation/parallel/p_image_store.c">
+			<Option target="galaxy_simulation"/>
+		</Unit>
+		<Unit filename="/Users/tangyifeng/ClionProjects/galaxy_simulation/parallel/p_image_store.h">
+			<Option target="galaxy_simulation"/>
+		</Unit>
+		<Unit filename="/Users/tangyifeng/ClionProjects/galaxy_simulation/parallel/p_initial_regions.c">
+			<Option target="galaxy_simulation"/>
+		</Unit>
+		<Unit filename="/Users/tangyifeng/ClionProjects/galaxy_simulation/parallel/p_initial_regions.h">
+			<Option target="galaxy_simulation"/>
+		</Unit>
+		<Unit filename="/Users/tangyifeng/ClionProjects/galaxy_simulation/parallel/p_initial_struct.c">
+			<Option target="galaxy_simulation"/>
+		</Unit>
+		<Unit filename="/Users/tangyifeng/ClionProjects/galaxy_simulation/parallel/p_initial_struct.h">
+			<Option target="galaxy_simulation"/>
+		</Unit>
+		<Unit filename="/Users/tangyifeng/ClionProjects/galaxy_simulation/parallel/p_main_loop.c">
+			<Option target="galaxy_simulation"/>
+		</Unit>
+		<Unit filename="/Users/tangyifeng/ClionProjects/galaxy_simulation/parallel/p_main_loop.h">
+			<Option target="galaxy_simulation"/>
+		</Unit>
+		<Unit filename="/Users/tangyifeng/ClionProjects/galaxy_simulation/parallel/p_mpi_environment.c">
+			<Option target="galaxy_simulation"/>
+		</Unit>
+		<Unit filename="/Users/tangyifeng/ClionProjects/galaxy_simulation/parallel/p_mpi_environment.h">
+			<Option target="galaxy_simulation"/>
+		</Unit>
+		<Unit filename="/Users/tangyifeng/ClionProjects/galaxy_simulation/parallel/p_swap_particles.c">
+			<Option target="galaxy_simulation"/>
+		</Unit>
+		<Unit filename="/Users/tangyifeng/ClionProjects/galaxy_simulation/parallel/p_swap_particles.h">
+			<Option target="galaxy_simulation"/>
+		</Unit>
+		<Unit filename="/Users/tangyifeng/ClionProjects/galaxy_simulation/sequential/s_image_generate.c">
+			<Option target="galaxy_simulation"/>
+		</Unit>
+		<Unit filename="/Users/tangyifeng/ClionProjects/galaxy_simulation/sequential/s_image_generate.h">
+			<Option target="galaxy_simulation"/>
+		</Unit>
+		<Unit filename="/Users/tangyifeng/ClionProjects/galaxy_simulation/sequential/s_image_store.c">
+			<Option target="galaxy_simulation"/>
+		</Unit>
+		<Unit filename="/Users/tangyifeng/ClionProjects/galaxy_simulation/sequential/s_image_store.h">
+			<Option target="galaxy_simulation"/>
+		</Unit>
+		<Unit filename="/Users/tangyifeng/ClionProjects/galaxy_simulation/sequential/s_initial_regions.c">
+			<Option target="galaxy_simulation"/>
+		</Unit>
+		<Unit filename="/Users/tangyifeng/ClionProjects/galaxy_simulation/sequential/s_initial_regions.h">
+			<Option target="galaxy_simulation"/>
+		</Unit>
+		<Unit filename="/Users/tangyifeng/ClionProjects/galaxy_simulation/sequential/s_main_loop.c">
+			<Option target="galaxy_simulation"/>
+		</Unit>
+		<Unit filename="/Users/tangyifeng/ClionProjects/galaxy_simulation/sequential/s_main_loop.h">
+			<Option target="galaxy_simulation"/>
+		</Unit>
+		<Unit filename="/Users/tangyifeng/ClionProjects/galaxy_simulation/sequential/s_swap_particles.c">
+			<Option target="galaxy_simulation"/>
+		</Unit>
+		<Unit filename="/Users/tangyifeng/ClionProjects/galaxy_simulation/sequential/s_swap_particles.h">
+			<Option target="galaxy_simulation"/>
+		</Unit>
+		<Unit filename="/Users/tangyifeng/ClionProjects/galaxy_simulation/util/file_helper.c">
+			<Option target="galaxy_simulation"/>
+		</Unit>
+		<Unit filename="/Users/tangyifeng/ClionProjects/galaxy_simulation/util/file_helper.h">
+			<Option target="galaxy_simulation"/>
+		</Unit>
+		<Unit filename="/Users/tangyifeng/ClionProjects/galaxy_simulation/util/image_painter.c">
+			<Option target="galaxy_simulation"/>
+		</Unit>
+		<Unit filename="/Users/tangyifeng/ClionProjects/galaxy_simulation/util/image_painter.h">
+			<Option target="galaxy_simulation"/>
+		</Unit>
+		<Unit filename="/Users/tangyifeng/ClionProjects/galaxy_simulation/util/physics.c">
+			<Option target="galaxy_simulation"/>
+		</Unit>
+		<Unit filename="/Users/tangyifeng/ClionProjects/galaxy_simulation/util/physics.h">
+			<Option target="galaxy_simulation"/>
+		</Unit>
+		<Unit filename="/Users/tangyifeng/ClionProjects/galaxy_simulation/util/random.c">
+			<Option target="galaxy_simulation"/>
+		</Unit>
+		<Unit filename="/Users/tangyifeng/ClionProjects/galaxy_simulation/util/random.h">
+			<Option target="galaxy_simulation"/>
+		</Unit>
+		<Unit filename="/Users/tangyifeng/ClionProjects/galaxy_simulation/util/timer.c">
+			<Option target="galaxy_simulation"/>
+		</Unit>
+		<Unit filename="/Users/tangyifeng/ClionProjects/galaxy_simulation/util/timer.h">
+			<Option target="galaxy_simulation"/>
+		</Unit>
+		<Unit filename="/Users/tangyifeng/ClionProjects/galaxy_simulation/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>

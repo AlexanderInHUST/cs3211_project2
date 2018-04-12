@@ -1,0 +1,3 @@
+/Users/tangyifeng/ClionProjects/galaxy_simulation/CMakeFiles/rebuild_cache.dir
+/Users/tangyifeng/ClionProjects/galaxy_simulation/CMakeFiles/edit_cache.dir
+/Users/tangyifeng/ClionProjects/galaxy_simulation/CMakeFiles/galaxy_simulation.dir

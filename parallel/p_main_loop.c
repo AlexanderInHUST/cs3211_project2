@@ -137,6 +137,7 @@ void p_start_simulation(region *region, input_data *input, int proc_id_x, int pr
             sent_parts[i] = (particle *) malloc(sizeof(particle) * particles_num);
         }
 
+        last_fast_velocity = 0;
         for (int part_id = 0, part_count = 0; part_count < particles_num; part_id++) {
             if (region->is_occupied[part_id] == 0) {
                 continue;
@@ -153,6 +154,7 @@ void p_start_simulation(region *region, input_data *input, int proc_id_x, int pr
                 region->particles_num--;
             }
         }
+        MPI_Allreduce(MPI_IN_PLACE, &last_fast_velocity, 1, MPI_DOUBLE, MPI_MAX, MPI_2D_COMM);
         p_swap_all_parts(sent_parts, sent_parts_num, recv_parts, recv_parts_num, proc_id_x, proc_id_y, reg_sqrt_num, MPI_2D_COMM, MPI_PARTICLE);
         p_save_recv_parts(region, recv_parts, recv_parts_num);
 

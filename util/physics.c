@@ -56,7 +56,7 @@ void correct_velocity(particle *a, double g_energy, double k_energy, double tota
                            + a->next_velocity.to_east * a->next_velocity.to_east);
     double scale;
     if (energy_now < 0) {
-        if (velocity > last_fast * 0.6) {
+        if (velocity > last_fast * 0.5) {
             scale = 0.1;
         } else {
             scale = 0.8;
