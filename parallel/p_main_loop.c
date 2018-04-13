@@ -132,7 +132,7 @@ void p_start_simulation(region *region, input_data *input, int proc_id_x, int pr
         }
 
         particle *sent_parts[8], *recv_parts[8];
-        int sent_parts_num[8] = {0}, recv_parts_num[8] = {0};
+        int sent_parts_num[8] = {0, 0, 0, 0, 0, 0, 0, 0}, recv_parts_num[8] = {0, 0, 0, 0, 0, 0, 0, 0};
         for (int i = 0; i < 8; i++) {
             sent_parts[i] = (particle *) malloc(sizeof(particle) * particles_num);
         }

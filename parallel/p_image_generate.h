@@ -16,8 +16,6 @@
 #define LEFT 0x4
 #define RIGHT 0x8
 
-//int edge_parts_num[8] = {0}; // UP DOWN LEFT RIGHT UL UR DL DR
-
 const static int magic_direction_map[11][3] = {
         {-1}, {0, -1, -1}, {1, -1, -1}, {-1},
         {2, -1, -1}, {0, 2, 4}, {1, 2, 6}, {-1},

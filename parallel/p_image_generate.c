@@ -12,9 +12,9 @@ ppm_image *p_create_ppm_image(region *reg, int proc_id_x, int proc_id_y, int reg
     memset(image->data, 0, sizeof(int *) * grid_size * grid_size * 3);
 
     simplified_part send_edge_parts[8][reg->particles_num];
-    int send_edge_parts_num[8] = {0}; // UP DOWN LEFT RIGHT UL UR DL DR
+    int send_edge_parts_num[8] = {0, 0, 0, 0, 0, 0, 0, 0}; // UP DOWN LEFT RIGHT UL UR DL DR
     simplified_part *recv_edge_parts[8];
-    int recv_edge_parts_num[8] = {0};
+    int recv_edge_parts_num[8] = {0, 0, 0, 0, 0, 0, 0, 0};
 
     for (int i = 0, part_count = 0; part_count < reg->particles_num; i++) {
         if(reg->is_occupied[i] == 0) {
@@ -48,7 +48,7 @@ ppm_image *p_create_ppm_image(region *reg, int proc_id_x, int proc_id_y, int reg
                 case 7: sim_part->x -= grid_size; sim_part->y -= grid_size; break;
                 default: break;
             }
-            memcpy(&send_edge_parts[dir][send_edge_parts_num[dir]], sim_part, sizeof(particle));
+            memcpy(&send_edge_parts[dir][send_edge_parts_num[dir]], sim_part, sizeof(simplified_part));
             send_edge_parts_num[dir]++;
             free(sim_part);
         }
