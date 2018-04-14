@@ -12,7 +12,7 @@ or
 make par // for parallel version
 ```
 
-## Run
+## Run locally
 
 ```
 ./simulation.seq [input_file_name] [prefix_of_output_files] [size_n]
@@ -22,6 +22,15 @@ or
 
 ```
 mpirun -np [size_n * size_n] ./simulation.par [input_file_name] [prefix_of_output_files]
+```
+
+## Run on NSCC
+
+```
+cd run
+javac PbsFileCreator.java
+java PbsFileCreator
+./submit.bash
 ```
 
 ## Example
