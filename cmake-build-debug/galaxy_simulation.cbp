@@ -156,6 +156,9 @@
 		<Unit filename="/Users/tangyifeng/ClionProjects/galaxy_simulation/parallel/p_swap_particles.h">
 			<Option target="galaxy_simulation"/>
 		</Unit>
+		<Unit filename="/Users/tangyifeng/ClionProjects/galaxy_simulation/pbs_scripts_creator.c">
+			<Option target="galaxy_simulation"/>
+		</Unit>
 		<Unit filename="/Users/tangyifeng/ClionProjects/galaxy_simulation/sequential/s_image_generate.c">
 			<Option target="galaxy_simulation"/>
 		</Unit>

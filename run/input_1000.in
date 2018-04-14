@@ -1,0 +1,24 @@
+TimeSlots: 200
+TimeStep: 0.1
+Horizon: 4
+GridSize: 100
+NumberOfSmallParticles: 1000
+SmallParticleMass: 0.001
+SmallParticleRadius: 0.001
+NumberOfLargeParticles: 16
+5 500 10 13.11
+5 500 82 85.11
+5 500 19 84
+5 500 87 7
+5 500 50 43.11
+5 100 22 75.11
+5 500 89 94
+5 500 17 7
+5 500 60 43.11
+5 100 32 75.11
+5 500 99 104
+5 500 27 7
+5 500 70 43.11
+5 100 42 75.11
+5 500 109 114
+5 500 37 7

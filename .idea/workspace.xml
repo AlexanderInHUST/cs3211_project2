@@ -11,13 +11,18 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2a6da5c2-f6ac-4c5e-a0fd-b1d4f711277b" name="Default" comment="">
+    <list default="true" id="2a6da5c2-f6ac-4c5e-a0fd-b1d4f711277b" name="Default" comment="fix a bug of sizeof in p_image_store.c">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/input.in" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/parallel/p_image_generate.c" afterPath="$PROJECT_DIR$/parallel/p_image_generate.c" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/parallel/p_image_generate.h" afterPath="$PROJECT_DIR$/parallel/p_image_generate.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/parallel/p_initial_struct.c" afterPath="$PROJECT_DIR$/parallel/p_initial_struct.c" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/parallel/p_main_loop.c" afterPath="$PROJECT_DIR$/parallel/p_main_loop.c" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/parallel/p_swap_particles.h" afterPath="$PROJECT_DIR$/parallel/p_swap_particles.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile2" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile2" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/galaxy_simulation.dir/DependInfo.cmake" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/galaxy_simulation.dir/DependInfo.cmake" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/galaxy_simulation.dir/build.make" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/galaxy_simulation.dir/build.make" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/galaxy_simulation.dir/cmake_clean.cmake" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/galaxy_simulation.dir/cmake_clean.cmake" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/galaxy_simulation.dir/link.txt" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/galaxy_simulation.dir/link.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/galaxy_simulation.dir/progress.make" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/galaxy_simulation.dir/progress.make" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/progress.marks" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/progress.marks" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cmake-build-debug/Makefile" afterPath="$PROJECT_DIR$/cmake-build-debug/Makefile" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cmake-build-debug/galaxy_simulation.cbp" afterPath="$PROJECT_DIR$/cmake-build-debug/galaxy_simulation.cbp" />
     </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
     <ignored path="$PROJECT_DIR$/CMakeFiles/" />
@@ -33,14 +38,13 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="main.c" pinned="false" current-in-tab="false">
+      <file leaf-file-name="main.c" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main.c">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="450">
-              <caret line="30" column="17" lean-forward="false" selection-start-line="30" selection-start-column="17" selection-end-line="30" selection-end-column="17" />
+            <state relative-caret-position="203">
+              <caret line="21" column="14" lean-forward="false" selection-start-line="21" selection-start-column="14" selection-end-line="21" selection-end-column="14" />
               <folding>
                 <element signature="e#0#19#0" expanded="true" />
-                <element signature="e#487#846#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -56,7 +60,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="p_image_generate.c" pinned="false" current-in-tab="true">
+      <file leaf-file-name="p_image_generate.c" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/parallel/p_image_generate.c">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="-97">
@@ -81,16 +85,6 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="1695">
               <caret line="113" column="13" lean-forward="false" selection-start-line="113" selection-start-column="13" selection-end-line="113" selection-end-column="13" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="vector_pair.c" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/model/vector_pair.c">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="75">
-              <caret line="5" column="0" lean-forward="false" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -166,7 +160,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/model/input_data.h" />
         <option value="$PROJECT_DIR$/util/cell_checker.h" />
         <option value="$PROJECT_DIR$/model/ppm_image.h" />
         <option value="$PROJECT_DIR$/serial/s_image_generate.h" />
@@ -217,6 +210,7 @@
         <option value="$PROJECT_DIR$/parallel/p_main_loop.c" />
         <option value="$PROJECT_DIR$/parallel/p_initial_struct.c" />
         <option value="$PROJECT_DIR$/parallel/p_image_generate.c" />
+        <option value="$PROJECT_DIR$/pbs_scripts_creator.c" />
       </list>
     </option>
   </component>
@@ -264,6 +258,11 @@
               <item name="galaxy_simulation" type="dad4c3:CidrFilesViewHelper$MyProjectTreeStructure$1" />
               <item name="galaxy_simulation" type="462c0819:PsiDirectoryNode" />
               <item name="parallel" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="galaxy_simulation" type="dad4c3:CidrFilesViewHelper$MyProjectTreeStructure$1" />
+              <item name="galaxy_simulation" type="462c0819:PsiDirectoryNode" />
+              <item name="run" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="galaxy_simulation" type="dad4c3:CidrFilesViewHelper$MyProjectTreeStructure$1" />
@@ -340,7 +339,7 @@
       <workItem from="1522947395738" duration="110000" />
       <workItem from="1522989169967" duration="21051000" />
       <workItem from="1523509065851" duration="2491000" />
-      <workItem from="1523603517303" duration="2174000" />
+      <workItem from="1523603517303" duration="4076000" />
     </task>
     <task id="LOCAL-00001" summary="first commit after finish data input">
       <created>1521971702142</created>
@@ -517,11 +516,18 @@
       <option name="project" value="LOCAL" />
       <updated>1523016819913</updated>
     </task>
-    <option name="localTasksCounter" value="26" />
+    <task id="LOCAL-00026" summary="fix a bug of sizeof in p_image_store.c">
+      <created>1523615556701</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1523615556701</updated>
+    </task>
+    <option name="localTasksCounter" value="27" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="153460000" />
+    <option name="totallyTimeSpent" value="155362000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1280" height="731" extended-state="0" />
@@ -580,7 +586,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="first commit after finish data input" />
     <MESSAGE value="IO has been done." />
     <MESSAGE value="Add some basic physics files" />
     <MESSAGE value="No too good and ready to add elastic collision" />
@@ -605,7 +610,8 @@
     <MESSAGE value="Finish" />
     <MESSAGE value="Add makefile" />
     <MESSAGE value="use allgather" />
-    <option name="LAST_COMMIT_MESSAGE" value="use allgather" />
+    <MESSAGE value="fix a bug of sizeof in p_image_store.c" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix a bug of sizeof in p_image_store.c" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -614,27 +620,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/util/random.c">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="15" column="27" lean-forward="false" selection-start-line="15" selection-start-column="27" selection-end-line="15" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/model/input_data.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="17" column="2" lean-forward="false" selection-start-line="17" selection-start-column="2" selection-end-line="17" selection-end-column="2" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/model/ppm_image.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="15" column="1" lean-forward="false" selection-start-line="15" selection-start-column="1" selection-end-line="15" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/util/image_painter.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="195">
@@ -735,6 +720,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="208">
           <caret line="22" column="2" lean-forward="false" selection-start-line="22" selection-start-column="2" selection-end-line="22" selection-end-column="2" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -756,6 +742,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="195">
           <caret line="13" column="0" lean-forward="false" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -925,17 +912,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main.c">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="450">
-          <caret line="30" column="17" lean-forward="false" selection-start-line="30" selection-start-column="17" selection-end-line="30" selection-end-column="17" />
-          <folding>
-            <element signature="e#0#19#0" expanded="true" />
-            <element signature="e#487#846#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/util/physics.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="285">
@@ -976,11 +952,45 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/pbs_creator.c">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pbs_scripts_creator.c">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="9" column="41" lean-forward="true" selection-start-line="9" selection-start-column="41" selection-end-line="9" selection-end-column="41" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/parallel/p_image_generate.c">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-97">
           <caret line="50" column="100" lean-forward="false" selection-start-line="50" selection-start-column="100" selection-end-line="50" selection-end-column="100" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/PbsFileCreator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main.c">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="203">
+          <caret line="21" column="14" lean-forward="false" selection-start-line="21" selection-start-column="14" selection-end-line="21" selection-end-column="14" />
+          <folding>
+            <element signature="e#0#19#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

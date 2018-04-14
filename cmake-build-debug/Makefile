@@ -420,6 +420,33 @@ parallel/p_swap_particles.c.s:
 	$(MAKE) -f CMakeFiles/galaxy_simulation.dir/build.make CMakeFiles/galaxy_simulation.dir/parallel/p_swap_particles.c.s
 .PHONY : parallel/p_swap_particles.c.s
 
+pbs_scripts_creator.o: pbs_scripts_creator.c.o
+
+.PHONY : pbs_scripts_creator.o
+
+# target to build an object file
+pbs_scripts_creator.c.o:
+	$(MAKE) -f CMakeFiles/galaxy_simulation.dir/build.make CMakeFiles/galaxy_simulation.dir/pbs_scripts_creator.c.o
+.PHONY : pbs_scripts_creator.c.o
+
+pbs_scripts_creator.i: pbs_scripts_creator.c.i
+
+.PHONY : pbs_scripts_creator.i
+
+# target to preprocess a source file
+pbs_scripts_creator.c.i:
+	$(MAKE) -f CMakeFiles/galaxy_simulation.dir/build.make CMakeFiles/galaxy_simulation.dir/pbs_scripts_creator.c.i
+.PHONY : pbs_scripts_creator.c.i
+
+pbs_scripts_creator.s: pbs_scripts_creator.c.s
+
+.PHONY : pbs_scripts_creator.s
+
+# target to generate assembly for a file
+pbs_scripts_creator.c.s:
+	$(MAKE) -f CMakeFiles/galaxy_simulation.dir/build.make CMakeFiles/galaxy_simulation.dir/pbs_scripts_creator.c.s
+.PHONY : pbs_scripts_creator.c.s
+
 sequential/s_image_generate.o: sequential/s_image_generate.c.o
 
 .PHONY : sequential/s_image_generate.o
@@ -732,6 +759,9 @@ help:
 	@echo "... parallel/p_swap_particles.o"
 	@echo "... parallel/p_swap_particles.i"
 	@echo "... parallel/p_swap_particles.s"
+	@echo "... pbs_scripts_creator.o"
+	@echo "... pbs_scripts_creator.i"
+	@echo "... pbs_scripts_creator.s"
 	@echo "... sequential/s_image_generate.o"
 	@echo "... sequential/s_image_generate.i"
 	@echo "... sequential/s_image_generate.s"

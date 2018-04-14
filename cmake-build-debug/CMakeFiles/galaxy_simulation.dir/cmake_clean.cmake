@@ -20,6 +20,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/galaxy_simulation.dir/parallel/p_initial_struct.c.o"
   "CMakeFiles/galaxy_simulation.dir/parallel/p_mpi_environment.c.o"
   "CMakeFiles/galaxy_simulation.dir/util/timer.c.o"
+  "CMakeFiles/galaxy_simulation.dir/pbs_scripts_creator.c.o"
   "galaxy_simulation.pdb"
   "galaxy_simulation"
 )

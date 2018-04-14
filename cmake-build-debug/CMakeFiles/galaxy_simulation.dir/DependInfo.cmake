@@ -15,6 +15,7 @@ set(CMAKE_DEPENDS_CHECK_C
   "/Users/tangyifeng/ClionProjects/galaxy_simulation/parallel/p_main_loop.c" "/Users/tangyifeng/ClionProjects/galaxy_simulation/cmake-build-debug/CMakeFiles/galaxy_simulation.dir/parallel/p_main_loop.c.o"
   "/Users/tangyifeng/ClionProjects/galaxy_simulation/parallel/p_mpi_environment.c" "/Users/tangyifeng/ClionProjects/galaxy_simulation/cmake-build-debug/CMakeFiles/galaxy_simulation.dir/parallel/p_mpi_environment.c.o"
   "/Users/tangyifeng/ClionProjects/galaxy_simulation/parallel/p_swap_particles.c" "/Users/tangyifeng/ClionProjects/galaxy_simulation/cmake-build-debug/CMakeFiles/galaxy_simulation.dir/parallel/p_swap_particles.c.o"
+  "/Users/tangyifeng/ClionProjects/galaxy_simulation/pbs_scripts_creator.c" "/Users/tangyifeng/ClionProjects/galaxy_simulation/cmake-build-debug/CMakeFiles/galaxy_simulation.dir/pbs_scripts_creator.c.o"
   "/Users/tangyifeng/ClionProjects/galaxy_simulation/sequential/s_image_generate.c" "/Users/tangyifeng/ClionProjects/galaxy_simulation/cmake-build-debug/CMakeFiles/galaxy_simulation.dir/sequential/s_image_generate.c.o"
   "/Users/tangyifeng/ClionProjects/galaxy_simulation/sequential/s_image_store.c" "/Users/tangyifeng/ClionProjects/galaxy_simulation/cmake-build-debug/CMakeFiles/galaxy_simulation.dir/sequential/s_image_store.c.o"
   "/Users/tangyifeng/ClionProjects/galaxy_simulation/sequential/s_initial_regions.c" "/Users/tangyifeng/ClionProjects/galaxy_simulation/cmake-build-debug/CMakeFiles/galaxy_simulation.dir/sequential/s_initial_regions.c.o"
